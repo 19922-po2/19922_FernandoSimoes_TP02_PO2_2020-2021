@@ -37,5 +37,5 @@ public abstract class AbstractPosition {
         return col;
     }
 
-    public abstract void print();
+    public abstract char print();
 }

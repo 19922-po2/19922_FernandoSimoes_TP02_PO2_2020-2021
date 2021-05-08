@@ -14,7 +14,8 @@ public class Wall extends AbstractPosition{
     }
 
     @Override
-    public void print() {
+    public char print() {
         System.out.print("W");
+        return 'W';
     }
 }

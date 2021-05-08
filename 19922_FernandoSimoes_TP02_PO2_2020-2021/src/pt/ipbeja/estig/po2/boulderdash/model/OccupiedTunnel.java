@@ -16,7 +16,8 @@ public class OccupiedTunnel extends AbstractPosition{
     }
 
     @Override
-    public void print() {
+    public char print() {
         System.out.print("O");
+        return 'O';
     }
 }

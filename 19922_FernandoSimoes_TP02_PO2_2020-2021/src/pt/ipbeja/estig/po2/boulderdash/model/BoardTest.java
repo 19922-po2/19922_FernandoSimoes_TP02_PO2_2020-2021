@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
     private Board board;
-    private String mapFile = "map_test.txt";
+    private String mapFile = "src/resources/map_test.txt";
 
     @BeforeEach
     void setUp() throws IOException {
@@ -90,6 +90,11 @@ class BoardTest {
     }
     @Test
     void testDiamondFall(){
+        //TODO
+    }
+
+    @Test
+    void testGateEntry(){
         //TODO
     }
 }

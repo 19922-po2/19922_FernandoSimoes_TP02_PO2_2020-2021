@@ -8,7 +8,8 @@ public class Rockford extends AbstractPosition{
 
 
     @Override
-    public void print() {
+    public char print() {
         System.out.print("X");
+        return 'X';
     }
 }

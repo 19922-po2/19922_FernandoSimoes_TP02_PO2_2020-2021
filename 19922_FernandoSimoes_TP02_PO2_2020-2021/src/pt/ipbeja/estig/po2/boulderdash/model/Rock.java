@@ -15,7 +15,8 @@ public class Rock extends AbstractPosition {
     }
 
     @Override
-    public void print() {
+    public char print() {
         System.out.print("R");
+        return 'R';
     }
 }

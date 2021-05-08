@@ -19,7 +19,8 @@ public class Diamond extends AbstractPosition {
     }
 
     @Override
-    public void print() {
+    public char print() {
         System.out.print("+");
+        return '+';
     }
 }

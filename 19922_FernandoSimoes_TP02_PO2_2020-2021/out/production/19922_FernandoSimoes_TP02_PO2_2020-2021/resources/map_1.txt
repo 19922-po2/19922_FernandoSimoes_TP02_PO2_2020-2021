@@ -1,0 +1,7 @@
+4 13
+OOWWWWOWWWWOO
+OOOOOOOOOOOOO
+OOOOOOOOOOOOO
+OWWWWWOWWWWOO
+J 1 2 % posição do jogador
+D 1 5 1 7 % dois diamantes (1,5) e (,1,7)

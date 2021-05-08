@@ -14,7 +14,8 @@ public class Gate extends AbstractPosition {
     }
 
     @Override
-    public void print() {
+    public char print() {
         System.out.print("G");
+        return 'G';
     }
 }
