@@ -1,7 +1,8 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
-public class Wall extends AbstractPosition{
-    public Wall(int line, int col) {
+public class Rock extends AbstractPosition {
+
+    public Rock(int line, int col) {
         super(line, col);
     }
 
@@ -9,12 +10,12 @@ public class Wall extends AbstractPosition{
         return false;
     }
 
-    public AbstractPosition moveTrigger() {
-        return null;
+    public void rockFall(){
+
     }
 
     @Override
     public void print() {
-        System.out.print("W");
+        System.out.print("R");
     }
 }

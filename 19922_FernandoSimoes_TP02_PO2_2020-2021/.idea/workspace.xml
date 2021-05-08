@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="290e7ab1-6a66-4b34-8831-4af8ef8833f5" name="Default Changelist" comment="" />
+    <list default="true" id="290e7ab1-6a66-4b34-8831-4af8ef8833f5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/PO2_2021.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/map_1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/map_test.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/gui/BoulderdashBoard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/gui/BoulderdashStart.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/BoardTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/Diamond.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/Rock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/Rockford.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/19922_FernandoSimoes_TP02_PO2_2020-2021.iml" beforeDir="false" afterPath="$PROJECT_DIR$/19922_FernandoSimoes_TP02_PO2_2020-2021.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/AbstractPostition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/AbstractPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/FreeTunnel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/FreeTunnel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/Gate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/Gate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/OccupiedTunnel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/OccupiedTunnel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/Wall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pt/ipbeja/estig/po2/boulderdash/model/Wall.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,9 +31,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -22,17 +48,121 @@
     </option>
   </component>
   <component name="ProjectId" id="1sDB3LXRh3vLz1t0qKJCdvErx1k" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../tictctoe-model-view_res" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="create.test.in.the.same.root" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="settings.github" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="pt.ipbeja.estig.po2.boulderdash.model" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.BoardTest">
+    <configuration name="BoulderdashStart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="pt.ipbeja.estig.po2.boulderdash.gui.BoulderdashStart" />
+      <module name="19922_FernandoSimoes_TP02_PO2_2020-2021" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pt.ipbeja.estig.po2.boulderdash.gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BoardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="19922_FernandoSimoes_TP02_PO2_2020-2021" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pt.ipbeja.estig.po2.boulderdash.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pt.ipbeja.estig.po2.boulderdash.model" />
+      <option name="MAIN_CLASS_NAME" value="pt.ipbeja.estig.po2.boulderdash.model.BoardTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BoardTest.testDiamondMovement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="19922_FernandoSimoes_TP02_PO2_2020-2021" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pt.ipbeja.estig.po2.boulderdash.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pt.ipbeja.estig.po2.boulderdash.model" />
+      <option name="MAIN_CLASS_NAME" value="pt.ipbeja.estig.po2.boulderdash.model.BoardTest" />
+      <option name="METHOD_NAME" value="testDiamondMovement" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BoardTest.testRockMovement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="19922_FernandoSimoes_TP02_PO2_2020-2021" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pt.ipbeja.estig.po2.boulderdash.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pt.ipbeja.estig.po2.boulderdash.model" />
+      <option name="MAIN_CLASS_NAME" value="pt.ipbeja.estig.po2.boulderdash.model.BoardTest" />
+      <option name="METHOD_NAME" value="testRockMovement" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BoardTest.testWallMovement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="19922_FernandoSimoes_TP02_PO2_2020-2021" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pt.ipbeja.estig.po2.boulderdash.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pt.ipbeja.estig.po2.boulderdash.model" />
+      <option name="MAIN_CLASS_NAME" value="pt.ipbeja.estig.po2.boulderdash.model.BoardTest" />
+      <option name="METHOD_NAME" value="testWallMovement" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.BoardTest" />
+        <item itemvalue="Application.BoulderdashStart" />
+        <item itemvalue="JUnit.BoardTest.testDiamondMovement" />
+        <item itemvalue="JUnit.BoardTest.testRockMovement" />
+        <item itemvalue="JUnit.BoardTest.testWallMovement" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -48,6 +178,16 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620400888530">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620400888530" />
+    <state x="612" y="175" key="#com.intellij.ide.util.MemberChooser" timestamp="1620435297832">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="612" y="175" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620415066273" />
+    <state x="612" y="175" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1620435297832" />
+    <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620399534080" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1620397744674">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -56,9 +196,69 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="745" y="413" width="429" height="270" key="Github.ShareDialog/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620397760036" />
+    <state width="1492" height="252" key="GridCell.Tab.0.bottom" timestamp="1620436453586">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="31" key="GridCell.Tab.0.bottom/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620419050310" />
+    <state width="1492" height="252" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1620436453586" />
+    <state width="1876" height="196" key="GridCell.Tab.0.bottom/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620403296447" />
+    <state width="1492" height="252" key="GridCell.Tab.0.center" timestamp="1620436453586">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="31" key="GridCell.Tab.0.center/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620419050310" />
+    <state width="1492" height="252" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1620436453586" />
+    <state width="1876" height="196" key="GridCell.Tab.0.center/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620403296447" />
+    <state width="1492" height="252" key="GridCell.Tab.0.left" timestamp="1620436453586">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="31" key="GridCell.Tab.0.left/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620419050310" />
+    <state width="1492" height="252" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1620436453586" />
+    <state width="1876" height="196" key="GridCell.Tab.0.left/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620403296447" />
+    <state width="1492" height="252" key="GridCell.Tab.0.right" timestamp="1620436453586">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="31" key="GridCell.Tab.0.right/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620419050310" />
+    <state width="1492" height="252" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1620436453586" />
+    <state width="1876" height="196" key="GridCell.Tab.0.right/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620403296447" />
+    <state width="1492" height="422" key="GridCell.Tab.1.bottom" timestamp="1620432972844">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="422" key="GridCell.Tab.1.bottom/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620418798290" />
+    <state width="1492" height="422" key="GridCell.Tab.1.bottom/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1620432972844" />
+    <state width="1876" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620403099898" />
+    <state width="1492" height="422" key="GridCell.Tab.1.center" timestamp="1620432972843">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="422" key="GridCell.Tab.1.center/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620418798290" />
+    <state width="1492" height="422" key="GridCell.Tab.1.center/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1620432972843" />
+    <state width="1876" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620403099898" />
+    <state width="1492" height="422" key="GridCell.Tab.1.left" timestamp="1620432972843">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="422" key="GridCell.Tab.1.left/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620418798290" />
+    <state width="1492" height="422" key="GridCell.Tab.1.left/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1620432972843" />
+    <state width="1876" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620403099898" />
+    <state width="1492" height="422" key="GridCell.Tab.1.right" timestamp="1620432972844">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1492" height="422" key="GridCell.Tab.1.right/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620418798290" />
+    <state width="1492" height="422" key="GridCell.Tab.1.right/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1620432972844" />
+    <state width="1876" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620403099898" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1620397930806">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040/0.-1080.1920.1040@0.0.1920.1040" timestamp="1620397930806" />
+    <state x="498" y="306" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1620411578618">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="498" y="306" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620411578618" />
+    <state x="522" y="115" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1620411505409">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="522" y="115" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1536.824/0.-1080.1920.1040@0.0.1536.824" timestamp="1620411505409" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1620434714279">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1620434714279" />
   </component>
 </project>
