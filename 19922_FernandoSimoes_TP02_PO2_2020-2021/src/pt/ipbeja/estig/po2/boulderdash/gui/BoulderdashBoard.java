@@ -2,6 +2,7 @@ package pt.ipbeja.estig.po2.boulderdash.gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import pt.ipbeja.estig.po2.boulderdash.model.AbstractPosition;
 import pt.ipbeja.estig.po2.boulderdash.model.Board;
@@ -16,6 +17,29 @@ public class BoulderdashBoard extends GridPane implements View {
         this.board = board;
         this.board.setView(this);
         createButtonGrid();
+
+        this.setOnKeyPressed(
+                event -> {
+                    switch(event.getCode()) {
+                        case W:
+                            this.board.rockfordMoveUp();
+                            //System.out.println("UP");
+                            break;
+                        case S:
+                            this.board.rockfordMoveDown();
+                            //System.out.println("DOWN");
+                            break;
+                        case A:
+                            //System.out.println("LEFT");
+                            this.board.rockfordMoveLeft();
+                            break;
+                        case D:
+                            //System.out.println("RIGHT");
+                            this.board.rockfordMoveRight();
+                            break;
+                    }
+                }
+        );
     }
 
     public void createButtonGrid() {
@@ -32,21 +56,27 @@ public class BoulderdashBoard extends GridPane implements View {
     }
 
     @Override
-    public void rockfordMovedRight(AbstractPosition rockford, AbstractPosition entity) {
-        this.buttons[entity.getCol() - 1][entity.getLine()].setButtonImage(entity);
+    public void rockfordMoved(AbstractPosition rockford, AbstractPosition entity) {
+        this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
         this.buttons[rockford.getCol()][rockford.getLine()].setButtonImage(rockford);
+    }
 
+    public void gateAppeared(AbstractPosition gate) {
+        this.buttons[gate.getCol()][gate.getLine()].setButtonImage(gate);
+    }
 
+    @Override
+    public void gameWon(int score) {
+        Alert gameWonAlert = new Alert(Alert.AlertType.INFORMATION);
+        gameWonAlert.setTitle("GAME WON!");
+        gameWonAlert.setHeaderText("Final score: " + score);
+        gameWonAlert.showAndWait();
     }
 
     class ButtonHandler implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent event) {
             GameButton source = (GameButton) event.getSource();
-            int row = GridPane.getRowIndex(source);
-            int col = GridPane.getColumnIndex(source);
-
-            board.rockfordMoveRight();//TODO
         }
     }
 }

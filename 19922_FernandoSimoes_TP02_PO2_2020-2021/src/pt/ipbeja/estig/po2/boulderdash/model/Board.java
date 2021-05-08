@@ -9,9 +9,11 @@ public class Board {
     private int nCol;
     private int score;
     private int nDiamonds;
+    private int nGates;
     private Rockford rockford;
     private AbstractPosition[][] board;
     private View view;
+    private Gate gate;
 
     public Board(String mapFile) throws IOException {
         this.score = 0;
@@ -19,21 +21,24 @@ public class Board {
         this.board = createBoard(mapFile);
         printMap();
         System.out.println(this.rockford.getLine()+"-"+this.rockford.getCol());
-
-        /*int endGame = 0;
-        Scanner myobj = new Scanner(System.in);
-        while(endGame == 0){
-            System.out.println("[SCORE: " + this.score +"][DIAMONDS: "+ this.nDiamonds +"][PLAY:");
-            String input = myobj.nextLine();
-            if(input.equals("w")) rockfordMoveUp();
-            if(input.equals("s")) rockfordMoveDown();
-            if(input.equals("a")) rockfordMoveLeft();
-            if(input.equals("d")) rockfordMoveRight();
-            printMap();
-        }*/
     }
     public AbstractPosition getEntity(int line, int col){
         return this.board[line][col];
+    }
+
+    public void rockfordGoTo(int line , int col){
+        if(this.board[line][col].possibleMoveTo()){
+            //swap rockford with free tunnel
+            this.board[this.rockford.getLine()][this.rockford.getCol()] = new FreeTunnel(this.rockford.getLine(), this.rockford.getCol());
+            //trigger
+            int points = this.board[line][col].increaseScore();
+            triggerScore(points);
+            //swaps target with rockford
+            this.board[line][col] = this.rockford;
+            this.rockford.setLine(line);
+            this.rockford.setCol(col);
+        }
+
     }
 
     public void setView(View view) {
@@ -44,7 +49,6 @@ public class Board {
         if(this.rockford.getLine() - 1 >= 0 &&
                 this.board[this.rockford.getLine() - 1][this.rockford.getCol()].possibleMoveTo()
                 && this.rockford.getLine() > 0 && this.rockford.getLine() < this.nLine){
-            System.out.println("up");
             //swaps rockford with free tunnel
             this.board[this.rockford.getLine()][this.rockford.getCol()] = new FreeTunnel(this.rockford.getLine(), this.rockford.getCol());
             //trigger
@@ -52,6 +56,9 @@ public class Board {
             //swaps target with rockford
             this.board[this.rockford.getLine() - 1][this.rockford.getCol()] = this.rockford;
             this.rockford.setLine(this.rockford.getLine() - 1);
+            //refresh view TODO
+            this.view.rockfordMoved(this.rockford, this.board[this.rockford.getLine() + 1][this.rockford.getCol()]);
+            checkWin();
         }
     }
 
@@ -59,7 +66,6 @@ public class Board {
         if(this.rockford.getLine() + 1 < nLine &&
                 this.board[this.rockford.getLine() + 1][this.rockford.getCol()].possibleMoveTo()
                 && this.rockford.getLine() >= 0 && this.rockford.getLine() < this.nLine){
-            System.out.println("down");
             //swaps rockford with free tunnel
             this.board[this.rockford.getLine()][this.rockford.getCol()] = new FreeTunnel(this.rockford.getLine(), this.rockford.getCol());
             //trigger
@@ -67,6 +73,9 @@ public class Board {
             //swaps target with rockford
             this.board[this.rockford.getLine() + 1][this.rockford.getCol()] = this.rockford;
             this.rockford.setLine(this.rockford.getLine() + 1);
+            //refresh view TODO
+            this.view.rockfordMoved(this.rockford, this.board[this.rockford.getLine() - 1][this.rockford.getCol()]);
+            checkWin();
         }
     }
 
@@ -74,7 +83,6 @@ public class Board {
         if(this.rockford.getCol() + 1 < nCol &&
                 this.board[this.rockford.getLine()][this.rockford.getCol() + 1].possibleMoveTo()
                 && this.rockford.getCol() >= 0 && this.rockford.getCol() < this.nCol){
-            System.out.println("right");
             //swaps rockford with free tunnel
             this.board[this.rockford.getLine()][this.rockford.getCol()] = new FreeTunnel(this.rockford.getLine(), this.rockford.getCol());
             //trigger
@@ -83,7 +91,8 @@ public class Board {
             this.board[this.rockford.getLine()][this.rockford.getCol() + 1] = this.rockford;
             this.rockford.setCol(this.rockford.getCol() + 1);
             //refresh view TODO
-            this.view.rockfordMovedRight(this.rockford, this.board[this.rockford.getLine()][this.rockford.getCol() - 1]);
+            this.view.rockfordMoved(this.rockford, this.board[this.rockford.getLine()][this.rockford.getCol() - 1]);
+            checkWin();
         }
     }
 
@@ -91,7 +100,6 @@ public class Board {
         if(this.rockford.getCol() - 1 >= 0 &&
                 this.board[this.rockford.getLine()][this.rockford.getCol() - 1].possibleMoveTo()
                 && this.rockford.getCol() > 0 && this.rockford.getCol() < this.nCol){
-            System.out.println("left");
             //swaps rockford with free tunnel
             this.board[this.rockford.getLine()][this.rockford.getCol()] = new FreeTunnel(this.rockford.getLine(), this.rockford.getCol());
             //trigger
@@ -99,6 +107,9 @@ public class Board {
             //swaps target with rockford
             this.board[this.rockford.getLine()][this.rockford.getCol() - 1] = this.rockford;
             this.rockford.setCol(this.rockford.getCol() - 1);
+            //refresh view TODO
+            this.view.rockfordMoved(this.rockford, this.board[this.rockford.getLine()][this.rockford.getCol() + 1]);
+            checkWin();
         }
     }
 
@@ -121,7 +132,24 @@ public class Board {
 
     private void triggerScore(int points){
         if(points > 0) nDiamonds--;
+        checkDiamondCount();
         this.score += points;
+    }
+
+    private void checkDiamondCount(){
+        if(nDiamonds == 0){
+            board[this.gate.getLine()][this.gate.getCol()] = new Gate(this.gate.getLine(), this.gate.getCol());
+            nGates = 1;
+            this.view.gateAppeared(this.gate);
+        }
+    }
+
+    private void checkWin(){
+        if(nGates == 1 && this.gate.getLine() == this.rockford.getLine() && this.gate.getCol() == this.rockford.getCol()){
+            this.view.gameWon(this.score);
+            //TODO reset board after win
+            //this.board = createBoard("src/resources/map_test.txt");
+        }
     }
 
     public AbstractPosition[][] createBoard(String mapFile) throws IOException {
@@ -169,6 +197,14 @@ public class Board {
             this.nDiamonds++;
             scan.nextLine();
             System.out.println("Diamond: " + tmpLine + "-" + tmpCol);
+        }
+        tmp = scan.next();
+        tmpLine = scan.nextInt();
+        tmpCol = scan.nextInt();
+        if(tmp.equals("G")){
+            this.gate = new Gate(tmpLine, tmpCol);
+            scan.nextLine();
+            System.out.println("Gate: " + tmpLine + "-" + tmpCol);
         }
         return board;
     }

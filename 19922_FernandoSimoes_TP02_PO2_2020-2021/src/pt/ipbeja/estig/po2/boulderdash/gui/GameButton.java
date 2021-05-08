@@ -34,13 +34,13 @@ public class GameButton extends Button {
             case 'O':
                 this.setOccupiedTunnel();
                 break;
-            case 'D':
+            case '+':
                 this.setDiamond();
                 break;
             case 'X':
                 this.setRockford();
                 break;
-            case 'P':
+            case 'R':
                 this.setRock();
                 break;
             case 'G':
