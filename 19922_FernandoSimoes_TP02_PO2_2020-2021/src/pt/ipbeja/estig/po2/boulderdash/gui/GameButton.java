@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import pt.ipbeja.estig.po2.boulderdash.model.AbstractPosition;
 
+/**
+ * @author Fernando Simões nº 19922
+ */
 
 public class GameButton extends Button {
     public static final Image DIAMOND = new Image("/resources/Diamond.png");

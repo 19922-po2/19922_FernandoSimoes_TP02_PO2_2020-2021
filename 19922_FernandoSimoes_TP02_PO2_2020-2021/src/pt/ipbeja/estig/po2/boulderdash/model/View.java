@@ -1,8 +1,12 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+/**
+ * @author Fernando Simões nº 19922
+ */
+
 public interface View {
     void rockfordMoved(AbstractPosition rockford, AbstractPosition entity);
     void gateAppeared(AbstractPosition gate);
     void gameWon(int score);
-
+    void diamondMoved(AbstractPosition diamond, AbstractPosition entity);
 }

@@ -2,6 +2,7 @@
 POWWWWOWWWWOO
 OOOOOOOOOOOOO
 OOOOOOOOOOOOO
-OWWWWWOWWWWOO
+WWWWWWOWWWWOO
 J 1 2 % posição do jogador
-D 1 5 1 7 % dois diamantes (1,5) e (,1,7)
+D 1 5 1 7 % dois diamantes
+G 2 12 % gate

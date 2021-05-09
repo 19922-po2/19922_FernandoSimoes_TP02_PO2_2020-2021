@@ -2,7 +2,7 @@
 WWWWWWWWWWWWW
 POOOOOOOOOOOO
 WOOLLOOOWWWWW
-WWWWWOOWWWWWW
+WWWWOOOWWWWWW
 J 1 2 % posição do jogador
 D 1 5 % posição do diamante (1,5)
 G 1 12 % posição to portal

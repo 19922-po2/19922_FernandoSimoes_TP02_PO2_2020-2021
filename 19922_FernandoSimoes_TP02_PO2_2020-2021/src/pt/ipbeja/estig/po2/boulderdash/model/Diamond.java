@@ -1,7 +1,11 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+/**
+ * @author Fernando Simões nº 19922
+ */
+
 public class Diamond extends AbstractPosition {
-    private final int DIAMOND_SCORE = 10;
+    private final int DIAMOND_SCORE = 100;
     public Diamond(int line, int col) {
         super(line, col);
     }
@@ -20,7 +24,7 @@ public class Diamond extends AbstractPosition {
 
     @Override
     public char print() {
-        System.out.print("+");
+        //System.out.print("+");
         return '+';
     }
 }

@@ -1,5 +1,9 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+/**
+ * @author Fernando Simões nº 19922
+ */
+
 public class Gate extends AbstractPosition {
     public Gate(int line, int col) {
         super(line, col);
@@ -17,7 +21,7 @@ public class Gate extends AbstractPosition {
 
     @Override
     public char print() {
-        System.out.print("G");
+        //System.out.print("G");
         return 'G';
     }
 }

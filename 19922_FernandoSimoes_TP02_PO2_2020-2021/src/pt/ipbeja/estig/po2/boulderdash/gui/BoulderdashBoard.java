@@ -9,6 +9,10 @@ import pt.ipbeja.estig.po2.boulderdash.model.Board;
 import pt.ipbeja.estig.po2.boulderdash.model.View;
 import java.io.IOException;
 
+/**
+ * @author Fernando Simões nº 19922
+ */
+
 public class BoulderdashBoard extends GridPane implements View {
     private Board board;
     private GameButton[][] buttons;
@@ -23,18 +27,14 @@ public class BoulderdashBoard extends GridPane implements View {
                     switch(event.getCode()) {
                         case W:
                             this.board.rockfordMoveUp();
-                            //System.out.println("UP");
                             break;
                         case S:
                             this.board.rockfordMoveDown();
-                            //System.out.println("DOWN");
                             break;
                         case A:
-                            //System.out.println("LEFT");
                             this.board.rockfordMoveLeft();
                             break;
                         case D:
-                            //System.out.println("RIGHT");
                             this.board.rockfordMoveRight();
                             break;
                     }
@@ -59,6 +59,12 @@ public class BoulderdashBoard extends GridPane implements View {
     public void rockfordMoved(AbstractPosition rockford, AbstractPosition entity) {
         this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
         this.buttons[rockford.getCol()][rockford.getLine()].setButtonImage(rockford);
+    }
+
+    @Override
+    public void diamondMoved(AbstractPosition diamond, AbstractPosition entity) {
+        this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
+        this.buttons[diamond.getCol()][diamond.getLine()].setButtonImage(diamond);
     }
 
     public void gateAppeared(AbstractPosition gate) {

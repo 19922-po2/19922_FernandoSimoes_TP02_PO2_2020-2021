@@ -1,8 +1,13 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
-
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+/**
+ * @author Fernando Simões nº 19922
+ */
 
 public class Board {
     private int nLine;
@@ -14,35 +19,16 @@ public class Board {
     private AbstractPosition[][] board;
     private View view;
     private Gate gate;
+    private List<Diamond> diamondList;
+    private List<Rock> rockList;
+    private int endLvl = 0;
 
     public Board(String mapFile) throws IOException {
         this.score = 0;
         this.nDiamonds = 0;
+        this.diamondList = new ArrayList<Diamond>();
         this.board = createBoard(mapFile);
-        printMap();
         System.out.println(this.rockford.getLine()+"-"+this.rockford.getCol());
-    }
-    public AbstractPosition getEntity(int line, int col){
-        return this.board[line][col];
-    }
-
-    public void rockfordGoTo(int line , int col){
-        if(this.board[line][col].possibleMoveTo()){
-            //swap rockford with free tunnel
-            this.board[this.rockford.getLine()][this.rockford.getCol()] = new FreeTunnel(this.rockford.getLine(), this.rockford.getCol());
-            //trigger
-            int points = this.board[line][col].increaseScore();
-            triggerScore(points);
-            //swaps target with rockford
-            this.board[line][col] = this.rockford;
-            this.rockford.setLine(line);
-            this.rockford.setCol(col);
-        }
-
-    }
-
-    public void setView(View view) {
-        this.view = view;
     }
 
     public void rockfordMoveUp() { //line-1
@@ -56,7 +42,7 @@ public class Board {
             //swaps target with rockford
             this.board[this.rockford.getLine() - 1][this.rockford.getCol()] = this.rockford;
             this.rockford.setLine(this.rockford.getLine() - 1);
-            //refresh view TODO
+            //refresh view
             this.view.rockfordMoved(this.rockford, this.board[this.rockford.getLine() + 1][this.rockford.getCol()]);
             checkWin();
         }
@@ -73,7 +59,7 @@ public class Board {
             //swaps target with rockford
             this.board[this.rockford.getLine() + 1][this.rockford.getCol()] = this.rockford;
             this.rockford.setLine(this.rockford.getLine() + 1);
-            //refresh view TODO
+            //refresh view
             this.view.rockfordMoved(this.rockford, this.board[this.rockford.getLine() - 1][this.rockford.getCol()]);
             checkWin();
         }
@@ -90,7 +76,7 @@ public class Board {
             //swaps target with rockford
             this.board[this.rockford.getLine()][this.rockford.getCol() + 1] = this.rockford;
             this.rockford.setCol(this.rockford.getCol() + 1);
-            //refresh view TODO
+            //refresh view
             this.view.rockfordMoved(this.rockford, this.board[this.rockford.getLine()][this.rockford.getCol() - 1]);
             checkWin();
         }
@@ -107,7 +93,7 @@ public class Board {
             //swaps target with rockford
             this.board[this.rockford.getLine()][this.rockford.getCol() - 1] = this.rockford;
             this.rockford.setCol(this.rockford.getCol() - 1);
-            //refresh view TODO
+            //refresh view
             this.view.rockfordMoved(this.rockford, this.board[this.rockford.getLine()][this.rockford.getCol() + 1]);
             checkWin();
         }
@@ -116,24 +102,48 @@ public class Board {
     private void triggerUp() {
         int points = this.board[this.rockford.getLine() - 1][this.rockford.getCol()].increaseScore();
         triggerScore(points);
+        if(points > 0) {removeDiamond(this.board[this.rockford.getLine() - 1][this.rockford.getCol()]);}
+        triggerDiamondFall();
+
     }
     private void triggerDown() {
         int points = this.board[this.rockford.getLine() + 1][this.rockford.getCol()].increaseScore();
         triggerScore(points);
+        if(points > 0) {removeDiamond(this.board[this.rockford.getLine() + 1][this.rockford.getCol()]);}
+        triggerDiamondFall();
     }
     private void triggerRight() {
         int points = this.board[this.rockford.getLine()][this.rockford.getCol() + 1].increaseScore();
         triggerScore(points);
+        if(points > 0) {removeDiamond(this.board[this.rockford.getLine()][this.rockford.getCol() + 1]);}
+        triggerDiamondFall();
     }
     private void triggerLeft() {
         int points = this.board[this.rockford.getLine()][this.rockford.getCol() - 1].increaseScore();
         triggerScore(points);
+        if(points > 0) {removeDiamond(this.board[this.rockford.getLine()][this.rockford.getCol() - 1]);}
+        triggerDiamondFall();
     }
 
     private void triggerScore(int points){
         if(points > 0) nDiamonds--;
         checkDiamondCount();
         this.score += points;
+    }
+
+    private void triggerDiamondFall(){
+        for(Diamond diamond : diamondList){
+            if(diamond.getLine() + 1 < nLine && this.board[diamond.getLine() + 1][diamond.getCol()].canReceiveFallingObject()){
+                this.board[diamond.getLine()][diamond.getCol()] = new FreeTunnel(diamond.getLine(), diamond.getCol());
+                diamond.setLine(diamond.getLine() + 1);
+                this.board[diamond.getLine()][diamond.getCol()] = diamond;
+                this.view.diamondMoved(diamond, this.board[diamond.getLine() - 1][diamond.getCol()]);
+            }
+        }
+    }
+
+    private void removeDiamond(AbstractPosition fallingObject){
+        diamondList.removeIf(diamond -> diamond.equals(fallingObject));
     }
 
     private void checkDiamondCount(){
@@ -147,8 +157,8 @@ public class Board {
     private void checkWin(){
         if(nGates == 1 && this.gate.getLine() == this.rockford.getLine() && this.gate.getCol() == this.rockford.getCol()){
             this.view.gameWon(this.score);
-            //TODO reset board after win
-            //this.board = createBoard("src/resources/map_test.txt");
+            this.endLvl = 1;
+            //TODO reset board after win and fix createMap()
         }
     }
 
@@ -157,7 +167,6 @@ public class Board {
         Scanner scan = new Scanner(map);
         this.nLine = scan.nextInt();
         this.nCol = scan.nextInt();
-        System.out.println("line:" + nLine + " |Col:" + nCol);
         AbstractPosition[][] board = new AbstractPosition[nLine][nCol];
 
         String tmp;
@@ -187,16 +196,15 @@ public class Board {
             this.rockford = new Rockford(tmpLine, tmpCol);
             board[tmpLine][tmpCol] = this.rockford;
             scan.nextLine();
-            System.out.println("PLAYER: " + tmpLine + "-" + tmpCol);
         }
         tmp = scan.next();
         tmpLine = scan.nextInt();
         tmpCol = scan.nextInt();
         if(tmp.equals("D")){
             board[tmpLine][tmpCol] = new Diamond(tmpLine, tmpCol);
+            this.diamondList.add((Diamond) board[tmpLine][tmpCol]); //saves diamonds in list
             this.nDiamonds++;
             scan.nextLine();
-            System.out.println("Diamond: " + tmpLine + "-" + tmpCol);
         }
         tmp = scan.next();
         tmpLine = scan.nextInt();
@@ -204,7 +212,6 @@ public class Board {
         if(tmp.equals("G")){
             this.gate = new Gate(tmpLine, tmpCol);
             scan.nextLine();
-            System.out.println("Gate: " + tmpLine + "-" + tmpCol);
         }
         return board;
     }
@@ -217,6 +224,10 @@ public class Board {
         return this.rockford;
     }
 
+    public List<Diamond> getDiamondList(){
+        return this.diamondList;
+    }
+
     public int getnLine() {
         return nLine;
     }
@@ -225,13 +236,45 @@ public class Board {
         return nCol;
     }
 
-    public void printMap() {
-        //System.out.println("NEW MAP");
-        for (int i = 0; i < nLine; i++) {
-            for (int j = 0; j < nCol; j++) {
-                board[i][j].print();
+    public int getEndLvl(){
+        return  this.endLvl;
+    }
+
+    public AbstractPosition getEntity(int line, int col){
+        return this.board[line][col];
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public void rockfordGoTo(int line , int col){
+        if(this.board[line][col].possibleMoveTo()){
+            //swap rockford with free tunnel
+            this.board[this.rockford.getLine()][this.rockford.getCol()] = new FreeTunnel(this.rockford.getLine(), this.rockford.getCol());
+            //triggers
+            int points = this.board[line][col].increaseScore();
+            if(points > 0) nDiamonds--;
+            if(nDiamonds == 0){
+                board[this.gate.getLine()][this.gate.getCol()] = new Gate(this.gate.getLine(), this.gate.getCol());
+                nGates = 1;
             }
-            System.out.println();
+            this.score += points;
+            for(Diamond diamond : diamondList){
+                if(diamond.getLine() + 1 < nLine && this.board[diamond.getLine() + 1][diamond.getCol()].canReceiveFallingObject()){
+                    this.board[diamond.getLine()][diamond.getCol()] = new FreeTunnel(diamond.getLine(), diamond.getCol());
+                    diamond.setLine(diamond.getLine() + 1);
+                    this.board[diamond.getLine()][diamond.getCol()] = diamond;
+                }
+            }
+            //swaps target with rockford
+            this.board[line][col] = this.rockford;
+            this.rockford.setLine(line);
+            this.rockford.setCol(col);
+            //checks win
+            if(nGates == 1 && this.gate.getLine() == this.rockford.getLine() && this.gate.getCol() == this.rockford.getCol()){
+                this.endLvl = 1;
+            }
         }
     }
 }

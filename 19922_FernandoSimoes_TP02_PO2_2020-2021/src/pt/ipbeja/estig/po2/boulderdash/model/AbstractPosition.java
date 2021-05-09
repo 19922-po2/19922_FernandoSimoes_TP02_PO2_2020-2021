@@ -1,5 +1,9 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+/**
+ * @author Fernando Simões nº 19922
+ */
+
 public abstract class AbstractPosition {
     private int line;
     private int col;
@@ -23,6 +27,10 @@ public abstract class AbstractPosition {
 
     public AbstractPosition moveTrigger() {
         return null;
+    }
+
+    public boolean canReceiveFallingObject(){
+        return false;
     }
 
     public int increaseScore(){

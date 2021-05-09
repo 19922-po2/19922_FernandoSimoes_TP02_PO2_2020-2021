@@ -5,8 +5,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import pt.ipbeja.estig.po2.boulderdash.model.Board;
 
+/**
+ * @author Fernando Simões nº 19922
+ */
+
 public class BoulderdashStart extends Application{
-    private String mapFile = "src/resources/map_test.txt";
+    private String mapFile = "src/resources/map_1.txt";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -19,9 +23,6 @@ public class BoulderdashStart extends Application{
             System.exit(0);
         });
         primaryStage.show();
-
-
-
     }
 
     public static void main(String args)
