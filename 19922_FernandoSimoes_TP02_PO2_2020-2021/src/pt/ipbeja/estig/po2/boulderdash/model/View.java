@@ -9,4 +9,6 @@ public interface View {
     void gateAppeared(AbstractPosition gate);
     void gameWon(int score);
     void diamondMoved(AbstractPosition diamond, AbstractPosition entity);
+    void rockMoved(AbstractPosition rock, AbstractPosition entity);
+    void resetBoard(Board board);
 }

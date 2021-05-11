@@ -9,13 +9,14 @@ import pt.ipbeja.estig.po2.boulderdash.model.Board;
  * @author Fernando Simões nº 19922
  */
 
-public class BoulderdashStart extends Application{
-    private String mapFile = "src/resources/map_1.txt";
+public class BoulderdashStart extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
+        Stage myStage = primaryStage; // TODO test
+        String mapFile = "src/resources/map_1.txt";
         Board board = new Board(mapFile);
-        BoulderdashBoard boulderdashBoard  = new BoulderdashBoard(board);
+        BoulderdashBoard boulderdashBoard = new BoulderdashBoard(board, myStage);
         Scene scene = new Scene(boulderdashBoard);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Boulder Dash");
@@ -25,8 +26,7 @@ public class BoulderdashStart extends Application{
         primaryStage.show();
     }
 
-    public static void main(String args)
-    {
+    public static void main(String args) {
         Application.launch(args);
     }
 }

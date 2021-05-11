@@ -10,7 +10,6 @@ public class OccupiedTunnel extends AbstractPosition{
         super(line, col);
     }
 
-
     public boolean possibleMoveTo() {
         return true;
     }
