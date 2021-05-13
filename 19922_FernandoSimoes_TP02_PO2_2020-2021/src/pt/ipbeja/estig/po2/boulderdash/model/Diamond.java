@@ -1,5 +1,7 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
+
 /**
  * @author Fernando Simões nº 19922
  */
@@ -16,8 +18,8 @@ public class Diamond extends AbstractPosition {
         return true;
     }
 
-    public void triggerDiamondFall(AbstractPosition[][] board, int nLine, View view){
-        if(this.getLine() + 1 < nLine && board[this.getLine() + 1][this.getCol()].canReceiveFallingObject()){
+    public void triggerDiamondFall(AbstractPosition[][] board, int nLine, View view) {
+        if (this.getLine() + 1 < nLine && board[this.getLine() + 1][this.getCol()].canReceiveFallingObject()) {
             board[this.getLine()][this.getCol()] = new FreeTunnel(this.getLine(), this.getCol());
             this.setLine(this.getLine() + 1);
             board[this.getLine()][this.getCol()] = this;
@@ -25,17 +27,26 @@ public class Diamond extends AbstractPosition {
         }
     }
 
+    @Override
+    public void setImage(GameButton button) {
+        button.setDiamond();
+    }
+
     public AbstractPosition moveTrigger() {
         return new FreeTunnel(this.getLine(), this.getCol());
     }
 
-    public int increaseScore(){
+    @Override
+    public boolean canReceiveFallingObject() {
+        return false;
+    }
+
+    public int increaseScore() {
         return this.DIAMOND_SCORE;
     }
 
     @Override
-    public char print() {
-        //System.out.print("+");
-        return '+';
+    public void print() {
+        System.out.print("+");
     }
 }

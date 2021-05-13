@@ -1,14 +1,42 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
+
 /**
  * @author Fernando Simões nº 19922
  */
 
 public class Rockford extends AbstractPosition{
 
-    public Rockford(int line, int col) {
+    private int rockfordLives;
+
+    public Rockford(int line, int col) { //TODO singleton implement
         super(line, col);
+        this.rockfordLives = 5;
         System.out.println("spawned Rockford...");
+    }
+
+    public int getRockfordLives() {
+        return this.rockfordLives;
+    }
+
+    public void setRockfordLives(int rockfordLives) {
+        this.rockfordLives = rockfordLives;
+    }
+
+    @Override
+    public boolean possibleMoveTo() {
+        return false;
+    }
+
+    @Override
+    public AbstractPosition moveTrigger() {
+        return null;
+    }
+
+    @Override
+    public boolean canReceiveFallingObject() {
+        return false;
     }
 
     public void rockfordMoveUp(Board board, int nLine, View view) { //line-1
@@ -80,8 +108,12 @@ public class Rockford extends AbstractPosition{
     }
 
     @Override
-    public char print() {
-        //System.out.print("X");
-        return 'X';
+    public void setImage(GameButton button) {
+        button.setRockford();
+    }
+
+    @Override
+    public void print() {
+        System.out.print("X");
     }
 }

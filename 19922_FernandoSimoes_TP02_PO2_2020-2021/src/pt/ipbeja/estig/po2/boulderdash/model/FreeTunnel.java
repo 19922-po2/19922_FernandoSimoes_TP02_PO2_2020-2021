@@ -1,5 +1,7 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
+
 /**
  * @author Fernando Simões nº 19922
  */
@@ -18,13 +20,17 @@ public class FreeTunnel extends AbstractPosition {
     }
 
     @Override
-    public boolean canReceiveFallingObject(){
+    public boolean canReceiveFallingObject() {
         return true;
     }
 
     @Override
-    public char print() {
-        //System.out.print("L");
-        return 'L';
+    public void setImage(GameButton button) {
+        button.setFreeTunnel();
+    }
+
+    @Override
+    public void print() {
+        System.out.print("L");
     }
 }

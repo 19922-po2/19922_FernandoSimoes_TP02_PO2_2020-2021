@@ -1,5 +1,7 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
+
 /**
  * @author Fernando Simões nº 19922
  */
@@ -18,8 +20,17 @@ public class Gate extends AbstractPosition {
     }
 
     @Override
-    public char print() {
-        //System.out.print("G");
-        return 'G';
+    public boolean canReceiveFallingObject() {
+        return false;
+    }
+
+    @Override
+    public void setImage(GameButton button) {
+        button.setGate();
+    }
+
+    @Override
+    public void print() {
+        System.out.print("G");
     }
 }

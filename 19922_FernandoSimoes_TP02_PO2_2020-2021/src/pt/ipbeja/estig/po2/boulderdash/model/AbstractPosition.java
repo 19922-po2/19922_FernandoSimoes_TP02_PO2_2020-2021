@@ -1,5 +1,8 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+
+import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
+
 /**
  * @author Fernando Simões nº 19922
  */
@@ -21,19 +24,13 @@ public abstract class AbstractPosition {
         this.col = col;
     }
 
-    public boolean possibleMoveTo() {
-        return false;
-    }
+    public abstract boolean possibleMoveTo();
 
-    public AbstractPosition moveTrigger() {
-        return null;
-    }
+    public abstract AbstractPosition moveTrigger();
 
-    public boolean canReceiveFallingObject(){
-        return false;
-    }
+    public abstract boolean canReceiveFallingObject();
 
-    public int increaseScore(){
+    public int increaseScore() {
         return 0;
     }
 
@@ -45,5 +42,7 @@ public abstract class AbstractPosition {
         return col;
     }
 
-    public abstract char print();
+    public abstract void print();
+
+    public abstract void setImage(GameButton button);
 }

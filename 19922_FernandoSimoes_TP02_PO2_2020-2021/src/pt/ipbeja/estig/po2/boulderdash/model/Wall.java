@@ -1,10 +1,13 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+import javafx.scene.control.Button;
+import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
+
 /**
  * @author Fernando Simões nº 19922
  */
 
-public class Wall extends AbstractPosition{
+public class Wall extends AbstractPosition {
     public Wall(int line, int col) {
         super(line, col);
     }
@@ -18,13 +21,17 @@ public class Wall extends AbstractPosition{
     }
 
     @Override
-    public boolean canReceiveFallingObject(){
+    public boolean canReceiveFallingObject() {
         return false;
     }
 
     @Override
-    public char print() {
-        //System.out.print("W");
-        return 'W';
+    public void print() {
+        System.out.print("W");
+    }
+
+    @Override
+    public void setImage(GameButton button) {
+        button.setWall();
     }
 }

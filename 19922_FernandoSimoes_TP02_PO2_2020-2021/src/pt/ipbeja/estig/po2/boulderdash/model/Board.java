@@ -13,6 +13,7 @@ import java.util.List;
  */
 
 public class Board {
+    private final int MAX_NUMBER_LEVELS = 3;
     private int nLine;
     private int nCol;
     private int score;
@@ -24,6 +25,7 @@ public class Board {
     private Gate gate;
     private List<Diamond> diamondList;
     private List<Rock> rockList;
+    private int currentLvl = 1;
     private int endLvl = 0;
 
     public Board(String mapFile) {
@@ -32,6 +34,11 @@ public class Board {
         this.diamondList = new ArrayList<Diamond>();
         this.rockList = new ArrayList<Rock>();
         this.board = createBoard(mapFile);
+        printBoard();
+    }
+
+    public int getnDiamonds() {
+        return this.nDiamonds;
     }
 
     public void triggerUp() {
@@ -46,7 +53,8 @@ public class Board {
         for (Diamond diamond : diamondList) {
             diamond.triggerDiamondFall(this.board, this.nLine, view);
         }
-
+        this.score -= 5;
+        this.view.setGameScore();
     }
 
     public void triggerDown() {
@@ -61,6 +69,8 @@ public class Board {
         for (Diamond diamond : diamondList) {
             diamond.triggerDiamondFall(this.board, this.nLine, view);
         }
+        this.score -= 5;
+        this.view.setGameScore();
     }
 
     //public-private
@@ -76,6 +86,8 @@ public class Board {
         for (Diamond diamond : diamondList) {
             diamond.triggerDiamondFall(this.board, this.nLine, view);
         }
+        this.score -= 5;
+        this.view.setGameScore();
     }
 
     public void triggerLeft() {
@@ -90,12 +102,15 @@ public class Board {
         for (Diamond diamond : diamondList) {
             diamond.triggerDiamondFall(this.board, this.nLine, view);
         }
+        this.score -= 5;
+        this.view.setGameScore();
     }
 
     private void triggerScore(int points) {
         if (points > 0) nDiamonds--;
         checkDiamondCount();
         this.score += points;
+        this.view.setDiamondCount();
     }
 
     private void removeDiamond(AbstractPosition fallingObject) {
@@ -110,21 +125,40 @@ public class Board {
         }
     }
 
-    //public->private
     public void checkWin() {
         if (nGates == 1 && this.gate.getLine() == this.rockford.getLine() && this.gate.getCol() == this.rockford.getCol()) {
-            this.view.gameWon(this.score);
+            this.view.lvlWon(this.score);
             this.endLvl = 1;
-            //TODO reset board after a win
-            resetBoard("src/resources/map_2.txt");
+
+            if (currentLvl < MAX_NUMBER_LEVELS) {
+                currentLvl++;
+                resetBoard("src/resources/map_" + currentLvl + ".txt");
+                this.view.setDiamondCount();
+            } else {
+                //TODO game won
+            }
         }
     }
 
-    public void resetBoard(String mapFile) {    // TODO test reset
+    public void resetBoard(String mapFile) {
         this.nDiamonds = 0;
         this.diamondList = new ArrayList<Diamond>();
         this.rockList = new ArrayList<Rock>();
         this.board = createBoard(mapFile);
+        this.view.resetBoard(this);
+    }
+
+    public void resetGame(String mapFile) {
+        this.nDiamonds = 0;
+        this.diamondList = new ArrayList<Diamond>();
+        this.rockList = new ArrayList<Rock>();
+        this.board = createBoard(mapFile);
+        this.score = 0;
+        this.currentLvl = 1;
+        this.rockford.setRockfordLives(5);
+        this.view.setGameScore();
+        this.view.setRockfordLivesCount();
+        this.view.setDiamondCount();
         this.view.resetBoard(this);
     }
 
@@ -140,6 +174,7 @@ public class Board {
     }
 
     private void createRockford(int counter, int i, String[][] linesArray, AbstractPosition[][] board) {
+        // the "%" is always at position 3 + c*2
         int line = Integer.parseInt(linesArray[i][3 + counter - 2]);
         int col = Integer.parseInt(linesArray[i][3 + counter - 1]);
         this.rockford = new Rockford(line, col);
@@ -276,6 +311,19 @@ public class Board {
 
     public void setView(View view) {
         this.view = view;
+    }
+
+    public int getCurrentLvl() {
+        return this.currentLvl;
+    }
+
+    public void printBoard() {
+        for (int i = 0; i < nLine; i++) {
+            for (int j = 0; j < nCol; j++) {
+                this.board[i][j].print();
+            }
+            System.out.println();
+        }
     }
 
     public void rockfordGoTo(int line, int col) {

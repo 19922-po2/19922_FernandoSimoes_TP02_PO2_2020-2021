@@ -3,7 +3,11 @@ package pt.ipbeja.estig.po2.boulderdash.gui;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import pt.ipbeja.estig.po2.boulderdash.model.AbstractPosition;
 import pt.ipbeja.estig.po2.boulderdash.model.Board;
@@ -13,17 +17,40 @@ import pt.ipbeja.estig.po2.boulderdash.model.View;
  * @author Fernando Simões nº 19922
  */
 
-public class BoulderdashBoard extends GridPane implements View {
+public class BoulderdashBoard extends HBox implements View {
     private Board board;
     private GameButton[][] buttons;
     private Stage myStage;
+    private GridPane gameBoard;
+    private VBox gameInfoVBOX;
+    private Label rockfordLivesLabel;
+    private Label currentDiamondCountLabel;
+    private Label gameScoreLabel;
+    private Button giveUpLevelButton;
 
     public BoulderdashBoard(Board board, Stage myStage) {
+
+        this.gameBoard = new GridPane();
         this.board = board;
         this.board.setView(this);
         createButtonGrid();
         this.myStage = myStage;
-        gameStart();
+
+        //game info (left side VBox)
+        this.gameInfoVBOX = new VBox();
+        this.rockfordLivesLabel = new Label("Rockford Lives: " + this.board.getRockford().getRockfordLives());
+        this.gameScoreLabel = new Label("Score: " + this.board.getScore());
+        this.currentDiamondCountLabel = new Label("Diamonds: " + this.board.getnDiamonds());
+        this.giveUpLevelButton = new Button("Give Up\n(Restart Lvl)");
+        giveUpLevelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                board.resetGame("src/resources/map_1.txt");
+            }
+        });
+        this.gameInfoVBOX.getChildren().addAll(rockfordLivesLabel, gameScoreLabel, currentDiamondCountLabel, giveUpLevelButton);
+        this.getChildren().addAll(gameInfoVBOX, gameBoard);
+        gameStart(); //shows movement keys before game starts
 
         this.setOnKeyPressed(
                 event -> {
@@ -45,14 +72,24 @@ public class BoulderdashBoard extends GridPane implements View {
         );
     }
 
+    public void setDiamondCount() {
+        this.currentDiamondCountLabel.setText("Diamonds: " + this.board.getnDiamonds());
+    }
+
+    public void setRockfordLivesCount() {
+        this.rockfordLivesLabel.setText("Rockford Lives: " + this.board.getRockford().getRockfordLives());
+    }
+
+    public void setGameScore() {
+        this.gameScoreLabel.setText("Score: " + this.board.getScore());
+    }
+
     public void createButtonGrid() {
         this.buttons = new GameButton[this.board.getnCol()][this.board.getnLine()];
-        ButtonHandler handler = new ButtonHandler();
         for (int line = 0; line < this.board.getnLine(); line++) {
             for (int col = 0; col < this.board.getnCol(); col++) {
                 GameButton gameButton = new GameButton(this.board.getEntity(line, col));
-                gameButton.setOnAction(handler);
-                add(gameButton, col, line);
+                this.gameBoard.add(gameButton, col, line);
                 buttons[col][line] = gameButton;
             }
         }
@@ -82,10 +119,10 @@ public class BoulderdashBoard extends GridPane implements View {
     }
 
     @Override
-    public void gameWon(int score) {
+    public void lvlWon(int score) {
         Alert gameWonAlert = new Alert(Alert.AlertType.INFORMATION);
-        gameWonAlert.setTitle("GAME WON!");
-        gameWonAlert.setHeaderText("Final score: " + score);
+        gameWonAlert.setTitle("LEVEL WON!");
+        gameWonAlert.setHeaderText("Score: " + score);
         gameWonAlert.showAndWait();
     }
 
@@ -103,12 +140,5 @@ public class BoulderdashBoard extends GridPane implements View {
         gameStart.setHeaderText("Movement Keys:");
         gameStart.setContentText("W - Move Up\nA - Move Left\nS - Move Down\nD - Move Right");
         gameStart.showAndWait();
-    }
-
-    class ButtonHandler implements EventHandler<ActionEvent> {
-        @Override
-        public void handle(ActionEvent event) {
-            GameButton source = (GameButton) event.getSource();
-        }
     }
 }

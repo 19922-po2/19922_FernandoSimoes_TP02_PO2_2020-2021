@@ -12,7 +12,7 @@ class BoardTest {
     private String mapFile = "src/resources/map_test.txt";
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() {
         this.board = new Board(this.mapFile);
     }
 
@@ -21,7 +21,7 @@ class BoardTest {
      * Tests rockford movement to a free position.
      * The positions of the two objects swamp.
      */
-    void test1() {
+    void testA() {
         //starting rockford position
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();
@@ -40,7 +40,7 @@ class BoardTest {
      * Tests rockford movement to a position with a Wall.
      * The positions of the two objects stay the same.
      */
-    void test2() {
+    void testB() {
         //starting rockford position
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();
@@ -59,7 +59,7 @@ class BoardTest {
      * Tests rockford movement to a position with a Rock.
      * The positions of the two objects stay the same.
      */
-    void test3() {
+    void testC() {
         //starting rockford position
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();
@@ -79,7 +79,7 @@ class BoardTest {
      * The positions of the two objects swamp.
      * The score increases.
      */
-    void test4() {
+    void testD() {
         //starting rockford position
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();
@@ -102,7 +102,7 @@ class BoardTest {
      * Tests rockford movement to a position that triggers Diamond fall.
      * The positions of the Diamond changes accordingly.
      */
-    void test5() {
+    void testE() {
         //gets the diamond to check positions
         Diamond diamond = this.board.getDiamondList().get(0);
         //starting rockford position
@@ -129,7 +129,7 @@ class BoardTest {
      * Tests rockford movement to a Gate.
      * The game ends.
      */
-    void test6() {
+    void testF() {
         //starting rockford position
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();

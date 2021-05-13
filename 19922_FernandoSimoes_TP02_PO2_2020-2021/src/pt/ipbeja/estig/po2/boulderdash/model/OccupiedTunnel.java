@@ -1,10 +1,12 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
+
 /**
  * @author Fernando Simões nº 19922
  */
 
-public class OccupiedTunnel extends AbstractPosition{
+public class OccupiedTunnel extends AbstractPosition {
 
     public OccupiedTunnel(int line, int col) {
         super(line, col);
@@ -19,13 +21,17 @@ public class OccupiedTunnel extends AbstractPosition{
     }
 
     @Override
-    public boolean canReceiveFallingObject(){
+    public boolean canReceiveFallingObject() {
         return false;
     }
 
     @Override
-    public char print() {
-        //System.out.print("O");
-        return 'O';
+    public void setImage(GameButton button) {
+        button.setOccupiedTunnel();
+    }
+
+    @Override
+    public void print() {
+        System.out.print("O");
     }
 }
