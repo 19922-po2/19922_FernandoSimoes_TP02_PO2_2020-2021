@@ -8,12 +8,20 @@ import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
 
 public class Rockford extends AbstractPosition{
 
+    private static Rockford instance = null;
     private int rockfordLives;
 
-    public Rockford(int line, int col) { //TODO singleton implement
+    private Rockford(int line, int col) {
         super(line, col);
         this.rockfordLives = 5;
         System.out.println("spawned Rockford...");
+    }
+
+    public static Rockford getInstance(int line, int col) {
+        if(instance == null) {
+            instance = new Rockford(line,  col);
+        }
+        return instance;
     }
 
     public int getRockfordLives() {
@@ -26,7 +34,7 @@ public class Rockford extends AbstractPosition{
 
     @Override
     public boolean possibleMoveTo() {
-        return false;
+        return true;
     }
 
     @Override
@@ -116,4 +124,35 @@ public class Rockford extends AbstractPosition{
     public void print() {
         System.out.print("X");
     }
+
+    public void rockfordGoTo(int line, int col, Board board) {
+        if (board.getBoard()[line][col].possibleMoveTo()) {
+            //swap rockford with free tunnel
+            board.getBoard()[this.getLine()][this.getCol()] = new FreeTunnel(this.getLine(), this.getCol());
+            //triggers
+            int points = board.getBoard()[line][col].increaseScore();
+            if (points > 0) board.setnDiamonds(board.getnDiamonds() - 1);//nDiamonds--;
+            if (board.getnDiamonds() == 0) {
+                board.getBoard()[board.getGate().getLine()][board.getGate().getCol()] = new Gate(board.getGate().getLine(), board.getGate().getCol());
+                board.setnGates(1);
+            }
+            board.setScore(board.getScore() + points);
+            for (Diamond diamond : board.getDiamondList()) {
+                if (diamond.getLine() + 1 < board.getnLine() && board.getBoard()[diamond.getLine() + 1][diamond.getCol()].canReceiveFallingObject()) {
+                    board.getBoard()[diamond.getLine()][diamond.getCol()] = new FreeTunnel(diamond.getLine(), diamond.getCol());
+                    diamond.setLine(diamond.getLine() + 1);
+                    board.getBoard()[diamond.getLine()][diamond.getCol()] = diamond;
+                }
+            }
+            //swaps target with rockford
+            board.getBoard()[line][col] = this;
+            this.setLine(line);
+            this.setCol(col);
+            //checks win
+            if (board.getnGates() == 1 && board.getGate().getLine() == this.getLine() && board.getGate().getCol() == this.getCol()) {
+                board.setEndLvl(1);
+            }
+        }
+    }
+
 }

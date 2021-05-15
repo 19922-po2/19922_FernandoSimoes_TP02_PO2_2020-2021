@@ -2,7 +2,8 @@
 POWWWWOWWWWPO
 OOOOOOOOOOOOO
 OOOOOOOOOOOOO
-WWWWOOOWWWWOO
+WWWWLLLWWWWOO
 J 1 2 % posição do jogador
 D 1 5 1 7 % dois diamantes
-G 2 12 % gate
+G 2 12 % portão
+I 3 6 % inimigo

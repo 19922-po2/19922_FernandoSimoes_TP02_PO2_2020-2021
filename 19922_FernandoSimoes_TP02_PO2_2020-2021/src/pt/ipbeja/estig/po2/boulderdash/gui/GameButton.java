@@ -10,6 +10,7 @@ import pt.ipbeja.estig.po2.boulderdash.model.AbstractPosition;
  */
 
 public class GameButton extends Button {
+    // https://game-icons.net/
     private static final Image DIAMOND = new Image("/resources/Diamond.png");
     private static final Image FREE_TUNNEL = new Image("/resources/FreeTunnel.png");
     private static final Image GATE = new Image("/resources/Gate.png");
@@ -17,6 +18,7 @@ public class GameButton extends Button {
     private static final Image ROCK = new Image("/resources/Rock.png");
     private static final Image ROCKFORD = new Image("/resources/Rockford.png");
     private static final Image WALL = new Image("/resources/Wall.png");
+    private static final Image ENEMY = new Image("/resources/Enemy.png");
     private ImageView imageView;
 
 
@@ -56,5 +58,9 @@ public class GameButton extends Button {
 
     public void setWall() {
         this.imageView.setImage(WALL);
+    }
+
+    public void setEnemy() {
+        this.imageView.setImage(ENEMY);
     }
 }

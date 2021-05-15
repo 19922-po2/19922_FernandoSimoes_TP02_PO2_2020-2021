@@ -11,8 +11,8 @@ public interface View {
     void diamondMoved(AbstractPosition diamond, AbstractPosition entity);
     void rockMoved(AbstractPosition rock, AbstractPosition entity);
     void resetBoard(Board board);
-    //void resetGame(String mapFile);
     void setDiamondCount();
     void setGameScore();
     void setRockfordLivesCount();
+    void timerRefresh(int timeValue);
 }

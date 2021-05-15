@@ -1,19 +1,21 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pt.ipbeja.estig.po2.boulderdash.model.AbstractPosition;
 import pt.ipbeja.estig.po2.boulderdash.model.Board;
 import pt.ipbeja.estig.po2.boulderdash.model.Diamond;
 
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
     private Board board;
-    private String mapFile = "src/resources/map_test.txt";
+    private AbstractPosition[][] arrayBoard;
 
     @BeforeEach
     void setUp() {
-        this.board = new Board(this.mapFile);
+        String mapFile = "src/resources/map_test.txt";
+        this.board = new Board(mapFile);
+        this.arrayBoard = board.createBoard(mapFile);
     }
 
     @Test
@@ -26,7 +28,7 @@ class BoardTest {
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();
         //movement to free tunnel
-        this.board.rockfordGoTo(previousLine + 1, previousCol + 1);
+        this.board.getRockford().rockfordGoTo(previousLine + 1, previousCol + 1, this.board);
         //next rockford position
         int nextLine = this.board.getRockford().getLine();
         int nextCol = this.board.getRockford().getCol();
@@ -45,7 +47,7 @@ class BoardTest {
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();
         //movement to wall
-        this.board.rockfordGoTo(2, 9);
+        this.board.getRockford().rockfordGoTo(2, 9, this.board);
         //next rockford position
         int nextLine = this.board.getRockford().getLine();
         int nextCol = this.board.getRockford().getCol();
@@ -64,7 +66,7 @@ class BoardTest {
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();
         //movement to Rock
-        this.board.rockfordGoTo(0, 1);
+        this.board.getRockford().rockfordGoTo(0, 1, this.board);
         //next rockford position
         int nextLine = this.board.getRockford().getLine();
         int nextCol = this.board.getRockford().getCol();
@@ -85,7 +87,8 @@ class BoardTest {
         int previousCol = this.board.getRockford().getCol();
         int previousScore = this.board.getScore();
         //movement to Diamond
-        this.board.rockfordGoTo(previousLine, previousCol + 3);
+        this.board.getRockford().rockfordGoTo(previousLine, previousCol + 3, this.board);
+        //this.board.rockfordGoTo(1, 5);
         //next rockford position
         int nextLine = this.board.getRockford().getLine();
         int nextCol = this.board.getRockford().getCol();
@@ -109,8 +112,8 @@ class BoardTest {
         int previousDiamondLine = diamond.getLine();
         int previousDiamondCol = diamond.getCol();
         //movement to occupied tunnel
-        this.board.rockfordGoTo(2, 5);
-        this.board.rockfordGoTo(2, 6);
+        this.board.getRockford().rockfordGoTo(2, 5, this.board);
+        this.board.getRockford().rockfordGoTo(2, 6, this.board);
         //next rockford position
         int nextLine = this.board.getRockford().getLine();
         int nextCol = this.board.getRockford().getCol();
@@ -135,9 +138,9 @@ class BoardTest {
         int previousCol = this.board.getRockford().getCol();
         int previousScore = this.board.getScore();
         //movement to diamond to trigger the gate
-        this.board.rockfordGoTo(previousLine, previousCol + 3);
+        this.board.getRockford().rockfordGoTo(previousLine, previousCol + 3, this.board);
         //movement to gate
-        this.board.rockfordGoTo(previousLine, previousCol + 10);
+        this.board.getRockford().rockfordGoTo(previousLine, previousCol + 10, this.board);
         //next rockford position
         int nextLine = this.board.getRockford().getLine();
         int nextCol = this.board.getRockford().getCol();

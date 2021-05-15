@@ -14,6 +14,6 @@ WOOOOOOOOOOW
 WOWWWWWWWWWW
 WOOOOOOOOOOW
 WWWWWWWWWWWW
-J 0 1 % jogador
+J 1 0 % jogador
 D 2 4 2 5 4 2 4 9 9 9 % diamantes
 G 13 11 % portão

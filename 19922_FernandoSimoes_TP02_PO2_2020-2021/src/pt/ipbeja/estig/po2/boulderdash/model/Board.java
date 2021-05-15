@@ -1,12 +1,13 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
 import javafx.scene.control.Alert;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author Fernando Simões nº 19922
@@ -27,8 +28,13 @@ public class Board {
     private List<Rock> rockList;
     private int currentLvl = 1;
     private int endLvl = 0;
+    private Timer timer;
+    private int timerValue;
+
+    private String playerName;
 
     public Board(String mapFile) {
+        this.timer = new Timer();
         this.score = 0;
         this.nDiamonds = 0;
         this.diamondList = new ArrayList<Diamond>();
@@ -37,24 +43,14 @@ public class Board {
         printBoard();
     }
 
-    public int getnDiamonds() {
-        return this.nDiamonds;
-    }
-
     public void triggerUp() {
         int points = this.board[this.rockford.getLine() - 1][this.rockford.getCol()].increaseScore();
         triggerScore(points);
         if (points > 0) {
             removeDiamond(this.board[this.rockford.getLine() - 1][this.rockford.getCol()]);
         }
-        for (Rock rock : rockList) {
-            rock.triggerRockFall(this.board, this.nLine, view);
-        }
-        for (Diamond diamond : diamondList) {
-            diamond.triggerDiamondFall(this.board, this.nLine, view);
-        }
-        this.score -= 5;
-        this.view.setGameScore();
+        triggerEntityFall();
+        movementScorePenalty();
     }
 
     public void triggerDown() {
@@ -63,14 +59,8 @@ public class Board {
         if (points > 0) {
             removeDiamond(this.board[this.rockford.getLine() + 1][this.rockford.getCol()]);
         }
-        for (Rock rock : rockList) {
-            rock.triggerRockFall(this.board, this.nLine, view);
-        }
-        for (Diamond diamond : diamondList) {
-            diamond.triggerDiamondFall(this.board, this.nLine, view);
-        }
-        this.score -= 5;
-        this.view.setGameScore();
+        triggerEntityFall();
+        movementScorePenalty();
     }
 
     //public-private
@@ -80,14 +70,8 @@ public class Board {
         if (points > 0) {
             removeDiamond(this.board[this.rockford.getLine()][this.rockford.getCol() + 1]);
         }
-        for (Rock rock : rockList) {
-            rock.triggerRockFall(this.board, this.nLine, view);
-        }
-        for (Diamond diamond : diamondList) {
-            diamond.triggerDiamondFall(this.board, this.nLine, view);
-        }
-        this.score -= 5;
-        this.view.setGameScore();
+        triggerEntityFall();
+        movementScorePenalty();
     }
 
     public void triggerLeft() {
@@ -96,12 +80,20 @@ public class Board {
         if (points > 0) {
             removeDiamond(this.board[this.rockford.getLine()][this.rockford.getCol() - 1]);
         }
+        triggerEntityFall();
+        movementScorePenalty();
+    }
+
+    private void triggerEntityFall() {
         for (Rock rock : rockList) {
             rock.triggerRockFall(this.board, this.nLine, view);
         }
         for (Diamond diamond : diamondList) {
             diamond.triggerDiamondFall(this.board, this.nLine, view);
         }
+    }
+
+    private void movementScorePenalty() {
         this.score -= 5;
         this.view.setGameScore();
     }
@@ -134,8 +126,10 @@ public class Board {
                 currentLvl++;
                 resetBoard("src/resources/map_" + currentLvl + ".txt");
                 this.view.setDiamondCount();
+                this.resetTimer();
+                this.view.timerRefresh(timerValue);
             } else {
-                //TODO game won
+                //TODO game won + high scores
             }
         }
     }
@@ -149,6 +143,7 @@ public class Board {
     }
 
     public void resetGame(String mapFile) {
+        this.nGates = 0;
         this.nDiamonds = 0;
         this.diamondList = new ArrayList<Diamond>();
         this.rockList = new ArrayList<Rock>();
@@ -160,9 +155,11 @@ public class Board {
         this.view.setRockfordLivesCount();
         this.view.setDiamondCount();
         this.view.resetBoard(this);
+        this.resetTimer();
     }
 
     public AbstractPosition[][] createBoard(String mapFile) {
+        this.nDiamonds = 0;
         String[][] linesArray = readFileToStringArray2D(mapFile, " ");
         this.nLine = Integer.parseInt(linesArray[0][0]);
         this.nCol = Integer.parseInt(linesArray[0][1]);
@@ -177,7 +174,12 @@ public class Board {
         // the "%" is always at position 3 + c*2
         int line = Integer.parseInt(linesArray[i][3 + counter - 2]);
         int col = Integer.parseInt(linesArray[i][3 + counter - 1]);
-        this.rockford = new Rockford(line, col);
+        if (this.rockford == null) {
+            this.rockford = Rockford.getInstance(line, col);
+        } else {
+            this.rockford.setLine(line);
+            this.rockford.setCol(col);
+        }
         board[line][col] = this.rockford;
     }
 
@@ -194,6 +196,12 @@ public class Board {
         int line = Integer.parseInt(linesArray[i][3 + counter - 2]);
         int col = Integer.parseInt(linesArray[i][3 + counter - 1]);
         this.gate = new Gate(line, col);
+    }
+
+    private void createEnemy(int counter, int i, String[][] linesArray, AbstractPosition[][] board) {
+        int line = Integer.parseInt(linesArray[i][3 + counter - 2]);
+        int col = Integer.parseInt(linesArray[i][3 + counter - 1]);
+        board[line][col] = new Enemy(line, col);
     }
 
     private void populate(int nLines, String[][] linesArray, AbstractPosition[][] board) {
@@ -226,6 +234,15 @@ public class Board {
                     }
                     if (linesArray[i][3 + counter].equals("%") && counter < linesArray[i].length) {
                         createGate(counter, i, linesArray);
+                    }
+                    break;
+                case "I":
+                    while (!linesArray[i][3 + counter].equals("%") && counter < linesArray[i].length) {
+                        createEnemy(counter, i, linesArray, board);
+                        counter += 2;
+                    }
+                    if (linesArray[i][3 + counter].equals("%") && counter < linesArray[i].length) {
+                        createEnemy(counter, i, linesArray, board);
                     }
                     break;
             }
@@ -281,6 +298,10 @@ public class Board {
         return this.score;
     }
 
+    public int getnDiamonds() {
+        return this.nDiamonds;
+    }
+
     public Rockford getRockford() {
         return this.rockford;
     }
@@ -297,8 +318,32 @@ public class Board {
         return nCol;
     }
 
+    public Gate getGate() {
+        return this.gate;
+    }
+
+    public int getnGates() {
+        return nGates;
+    }
+
+    public void setnDiamonds(int nDiamonds) {
+        this.nDiamonds = nDiamonds;
+    }
+
+    public void setnGates(int nGates) {
+        this.nGates = nGates;
+    }
+
+    public void setEndLvl(int endLvl) {
+        this.endLvl = endLvl;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public int getEndLvl() {
-        return this.endLvl;
+        return endLvl;
     }
 
     public AbstractPosition[][] getBoard() {
@@ -313,8 +358,12 @@ public class Board {
         this.view = view;
     }
 
-    public int getCurrentLvl() {
-        return this.currentLvl;
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public void printBoard() {
@@ -326,7 +375,46 @@ public class Board {
         }
     }
 
-    public void rockfordGoTo(int line, int col) {
+    /**
+     * Creates a new timer and sets the timer count to zero
+     */
+    public void resetTimer() {
+        this.timerValue = -1;
+        this.timer = new Timer();
+    }
+
+    /**
+     * Starts timer
+     */
+    public void startTimer() {
+        this.resetTimer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                timerValue++;
+                view.timerRefresh(timerValue);
+            }
+        };
+        this.timer.schedule(timerTask, 0, 1000);
+    }
+
+    /**
+     * Stops the current timer
+     */
+    public void stopTimer() {
+        timer.cancel();
+    }
+
+    /**
+     * Get current timer value
+     *
+     * @return time in seconds
+     */
+    public int getTimerValue() {
+        return this.timerValue;
+    }
+
+    /*public void rockfordGoTo(int line, int col) {
         if (this.board[line][col].possibleMoveTo()) {
             //swap rockford with free tunnel
             this.board[this.rockford.getLine()][this.rockford.getCol()] = new FreeTunnel(this.rockford.getLine(), this.rockford.getCol());
@@ -354,5 +442,5 @@ public class Board {
                 this.endLvl = 1;
             }
         }
-    }
+    }*/
 }

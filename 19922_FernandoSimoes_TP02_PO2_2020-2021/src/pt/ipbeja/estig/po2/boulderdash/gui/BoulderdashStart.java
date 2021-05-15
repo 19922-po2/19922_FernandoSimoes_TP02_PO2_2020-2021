@@ -13,7 +13,7 @@ public class BoulderdashStart extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Stage myStage = primaryStage; // TODO test
+        Stage myStage = primaryStage;
         String mapFile = "src/resources/map_1.txt";
         Board board = new Board(mapFile);
         BoulderdashBoard boulderdashBoard = new BoulderdashBoard(board, myStage);

@@ -1,10 +1,9 @@
 package pt.ipbeja.estig.po2.boulderdash.gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -27,30 +26,34 @@ public class BoulderdashBoard extends HBox implements View {
     private Label currentDiamondCountLabel;
     private Label gameScoreLabel;
     private Button giveUpLevelButton;
+    private Label playerNameLabel;
+    private Label timerLabel;
 
     public BoulderdashBoard(Board board, Stage myStage) {
-
         this.gameBoard = new GridPane();
         this.board = board;
         this.board.setView(this);
+        this.timerLabel = new Label("Timer: " + this.board.getTimerValue());
+        gameStart(); //ask player name and show movement keys before game starts
         createButtonGrid();
         this.myStage = myStage;
 
-        //game info (left side VBox)
+        //game info (side VBox)
         this.gameInfoVBOX = new VBox();
+        //this.timerLabel = new Label(String.valueOf(this.board.getTimerValue()));
         this.rockfordLivesLabel = new Label("Rockford Lives: " + this.board.getRockford().getRockfordLives());
         this.gameScoreLabel = new Label("Score: " + this.board.getScore());
         this.currentDiamondCountLabel = new Label("Diamonds: " + this.board.getnDiamonds());
+        this.playerNameLabel = new Label("Current Player:\n" + this.board.getPlayerName());
         this.giveUpLevelButton = new Button("Give Up\n(Restart Lvl)");
-        giveUpLevelButton.setOnAction(new EventHandler<ActionEvent>() {
+        this.giveUpLevelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 board.resetGame("src/resources/map_1.txt");
             }
         });
-        this.gameInfoVBOX.getChildren().addAll(rockfordLivesLabel, gameScoreLabel, currentDiamondCountLabel, giveUpLevelButton);
+        this.gameInfoVBOX.getChildren().addAll(timerLabel, playerNameLabel, rockfordLivesLabel, gameScoreLabel, currentDiamondCountLabel, giveUpLevelButton);
         this.getChildren().addAll(gameInfoVBOX, gameBoard);
-        gameStart(); //shows movement keys before game starts
 
         this.setOnKeyPressed(
                 event -> {
@@ -78,6 +81,13 @@ public class BoulderdashBoard extends HBox implements View {
 
     public void setRockfordLivesCount() {
         this.rockfordLivesLabel.setText("Rockford Lives: " + this.board.getRockford().getRockfordLives());
+    }
+
+    @Override
+    public void timerRefresh(int timeValue) {
+        Platform.runLater(() -> {
+            this.timerLabel.setText("Timer: " + timeValue);
+        });
     }
 
     public void setGameScore() {
@@ -130,15 +140,32 @@ public class BoulderdashBoard extends HBox implements View {
     public void resetBoard(Board board) {      // TODO test "myStage", doesn't scale properly
         this.board = board;
         this.board.setView(this);
+        this.getChildren().remove(this.gameBoard); //removes gridpane from hbox
+        this.gameBoard = new GridPane();
         createButtonGrid();
+        this.getChildren().add(this.gameBoard); //adds gridpane
         this.myStage.sizeToScene();
     }
 
     public void gameStart() {
-        Alert gameStart = new Alert(Alert.AlertType.INFORMATION);
-        gameStart.setTitle("BoulderDash Game");
-        gameStart.setHeaderText("Movement Keys:");
-        gameStart.setContentText("W - Move Up\nA - Move Left\nS - Move Down\nD - Move Right");
-        gameStart.showAndWait();
+        TextInputDialog gameStartDialog = new TextInputDialog("(max 8 characters)");
+        gameStartDialog.setTitle("BoulderDash Game");
+        gameStartDialog.setHeaderText("Movement Keys:\nW - Move Up\nA - Move Left\nS - Move Down\nD - Move Right");
+        gameStartDialog.setContentText("Player Name:");
+        gameStartDialog.showAndWait();
+        validatePlayerName(gameStartDialog.getEditor().getText());
+        this.board.setPlayerName(gameStartDialog.getEditor().getText());
+        this.board.startTimer();
+    }
+
+    private void validatePlayerName(String name) {
+        if(name.length() > 8) {
+            Alert nameError = new Alert(Alert.AlertType.INFORMATION);
+            nameError.setTitle("Error");
+            nameError.setHeaderText(null);
+            nameError.setContentText("Invalid Name\nPlease enter a name with less than 8 characters");
+            nameError.showAndWait();
+            gameStart();
+        }
     }
 }
