@@ -15,6 +15,11 @@ public class Gate extends AbstractPosition {
         return true;
     }
 
+    @Override
+    public boolean possibleEnemyMoveTo() {
+        return false;
+    }
+
     public AbstractPosition moveTrigger() {
         return this;
     }

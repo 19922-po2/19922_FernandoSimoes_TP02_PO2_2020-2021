@@ -38,6 +38,11 @@ public class Rockford extends AbstractPosition{
     }
 
     @Override
+    public boolean possibleEnemyMoveTo() {
+        return true;
+    }
+
+    @Override
     public AbstractPosition moveTrigger() {
         return null;
     }
@@ -53,7 +58,7 @@ public class Rockford extends AbstractPosition{
                 && this.getLine() > 0 && this.getLine() < nLine){
             //swaps rockford with free tunnel
             board.getBoard()[this.getLine()][this.getCol()] = new FreeTunnel(this.getLine(), this.getCol());
-            //trigger
+            //trigger events
             board.triggerUp();
             //swaps target with rockford
             board.getBoard()[this.getLine() - 1][this.getCol()] = this;
@@ -70,7 +75,7 @@ public class Rockford extends AbstractPosition{
                 && this.getLine() >= 0 && this.getLine() < nLine){
             //swaps rockford with free tunnel
             board.getBoard()[this.getLine()][this.getCol()] = new FreeTunnel(this.getLine(), this.getCol());
-            //trigger
+            //trigger events
             board.triggerDown();
             //swaps target with rockford
             board.getBoard()[this.getLine() + 1][this.getCol()] = this;
@@ -87,7 +92,7 @@ public class Rockford extends AbstractPosition{
                 && this.getCol() >= 0 && this.getCol() < nCol){
             //swaps rockford with free tunnel
             board.getBoard()[this.getLine()][this.getCol()] = new FreeTunnel(this.getLine(), this.getCol());
-            //trigger
+            //trigger events
             board.triggerRight();
             //swaps target with rockford
             board.getBoard()[this.getLine()][this.getCol() + 1] = this;
@@ -104,7 +109,7 @@ public class Rockford extends AbstractPosition{
                 && this.getCol() > 0 && this.getCol() < nCol){
             //swaps rockford with free tunnel
             board.getBoard()[this.getLine()][this.getCol()] = new FreeTunnel(this.getLine(), this.getCol());
-            //trigger
+            //trigger events
             board.triggerLeft();
             //swaps target with rockford
             board.getBoard()[this.getLine()][this.getCol() - 1] = this;

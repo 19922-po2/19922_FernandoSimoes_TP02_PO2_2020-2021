@@ -112,6 +112,13 @@ public class BoulderdashBoard extends HBox implements View {
     }
 
     @Override
+    public void enemyMoved(AbstractPosition enemy, AbstractPosition entity) {
+        this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
+        this.buttons[enemy.getCol()][enemy.getLine()].setButtonImage(enemy);
+        //TODO test
+    }
+
+    @Override
     public void diamondMoved(AbstractPosition diamond, AbstractPosition entity) {
         this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
         this.buttons[diamond.getCol()][diamond.getLine()].setButtonImage(diamond);
@@ -137,7 +144,7 @@ public class BoulderdashBoard extends HBox implements View {
     }
 
     @Override
-    public void resetBoard(Board board) {      // TODO test "myStage", doesn't scale properly
+    public void resetBoard(Board board) {
         this.board = board;
         this.board.setView(this);
         this.getChildren().remove(this.gameBoard); //removes gridpane from hbox

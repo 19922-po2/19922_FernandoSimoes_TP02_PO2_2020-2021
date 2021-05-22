@@ -26,6 +26,8 @@ public abstract class AbstractPosition {
 
     public abstract boolean possibleMoveTo();
 
+    public abstract boolean possibleEnemyMoveTo();
+
     public abstract AbstractPosition moveTrigger();
 
     public abstract boolean canReceiveFallingObject();

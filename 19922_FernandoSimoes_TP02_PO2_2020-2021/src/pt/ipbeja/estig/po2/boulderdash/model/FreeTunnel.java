@@ -15,6 +15,11 @@ public class FreeTunnel extends AbstractPosition {
         return true;
     }
 
+    @Override
+    public boolean possibleEnemyMoveTo() {
+        return true;
+    }
+
     public AbstractPosition moveTrigger() {
         return null;
     }

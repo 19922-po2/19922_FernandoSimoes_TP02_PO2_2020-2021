@@ -18,6 +18,11 @@ public class Diamond extends AbstractPosition {
         return true;
     }
 
+    @Override
+    public boolean possibleEnemyMoveTo() {
+        return false;
+    }
+
     public void triggerDiamondFall(AbstractPosition[][] board, int nLine, View view) {
         if (this.getLine() + 1 < nLine && board[this.getLine() + 1][this.getCol()].canReceiveFallingObject()) {
             board[this.getLine()][this.getCol()] = new FreeTunnel(this.getLine(), this.getCol());

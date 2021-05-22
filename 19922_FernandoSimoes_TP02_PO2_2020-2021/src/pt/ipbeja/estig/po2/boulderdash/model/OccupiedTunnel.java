@@ -16,6 +16,11 @@ public class OccupiedTunnel extends AbstractPosition {
         return true;
     }
 
+    @Override
+    public boolean possibleEnemyMoveTo() {
+        return false;
+    }
+
     public AbstractPosition moveTrigger() {
         return new FreeTunnel(this.getLine(), this.getCol());
     }

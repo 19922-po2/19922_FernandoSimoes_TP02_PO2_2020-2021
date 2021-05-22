@@ -26,6 +26,7 @@ public class Board {
     private Gate gate;
     private List<Diamond> diamondList;
     private List<Rock> rockList;
+    private List<Enemy> enemyList;
     private int currentLvl = 1;
     private int endLvl = 0;
     private Timer timer;
@@ -39,6 +40,7 @@ public class Board {
         this.nDiamonds = 0;
         this.diamondList = new ArrayList<Diamond>();
         this.rockList = new ArrayList<Rock>();
+        this.enemyList = new ArrayList<Enemy>();
         this.board = createBoard(mapFile);
         printBoard();
     }
@@ -50,6 +52,7 @@ public class Board {
             removeDiamond(this.board[this.rockford.getLine() - 1][this.rockford.getCol()]);
         }
         triggerEntityFall();
+        triggerEnemyMovement();
         movementScorePenalty();
     }
 
@@ -60,10 +63,10 @@ public class Board {
             removeDiamond(this.board[this.rockford.getLine() + 1][this.rockford.getCol()]);
         }
         triggerEntityFall();
+        triggerEnemyMovement();
         movementScorePenalty();
     }
 
-    //public-private
     public void triggerRight() {
         int points = this.board[this.rockford.getLine()][this.rockford.getCol() + 1].increaseScore();
         triggerScore(points);
@@ -71,6 +74,7 @@ public class Board {
             removeDiamond(this.board[this.rockford.getLine()][this.rockford.getCol() + 1]);
         }
         triggerEntityFall();
+        triggerEnemyMovement();
         movementScorePenalty();
     }
 
@@ -81,6 +85,7 @@ public class Board {
             removeDiamond(this.board[this.rockford.getLine()][this.rockford.getCol() - 1]);
         }
         triggerEntityFall();
+        triggerEnemyMovement();
         movementScorePenalty();
     }
 
@@ -90,6 +95,18 @@ public class Board {
         }
         for (Diamond diamond : diamondList) {
             diamond.triggerDiamondFall(this.board, this.nLine, view);
+        }
+    }
+
+    private void triggerEnemyMovement() {
+        for (Enemy enemy : enemyList) {
+            enemy.enemyMove(this, this.nLine, this.nCol, view);
+            //TODO enemy kills rockford
+            if(enemy.getLine() == this.rockford.getLine() && enemy.getCol() == this.rockford.getCol()) {
+                System.out.println("DEATH");
+                this.rockford.setRockfordLives(this.rockford.getRockfordLives() - 1);
+                this.view.setRockfordLivesCount();
+            }
         }
     }
 
@@ -138,6 +155,7 @@ public class Board {
         this.nDiamonds = 0;
         this.diamondList = new ArrayList<Diamond>();
         this.rockList = new ArrayList<Rock>();
+        this.enemyList = new ArrayList<Enemy>();
         this.board = createBoard(mapFile);
         this.view.resetBoard(this);
     }
@@ -147,6 +165,7 @@ public class Board {
         this.nDiamonds = 0;
         this.diamondList = new ArrayList<Diamond>();
         this.rockList = new ArrayList<Rock>();
+        this.enemyList = new ArrayList<Enemy>();
         this.board = createBoard(mapFile);
         this.score = 0;
         this.currentLvl = 1;
@@ -202,6 +221,7 @@ public class Board {
         int line = Integer.parseInt(linesArray[i][3 + counter - 2]);
         int col = Integer.parseInt(linesArray[i][3 + counter - 1]);
         board[line][col] = new Enemy(line, col);
+        this.enemyList.add((Enemy) board[line][col]); //saves enemy on list
     }
 
     private void populate(int nLines, String[][] linesArray, AbstractPosition[][] board) {

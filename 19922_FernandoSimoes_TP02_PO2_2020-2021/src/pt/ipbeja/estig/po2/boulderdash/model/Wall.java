@@ -16,6 +16,11 @@ public class Wall extends AbstractPosition {
         return false;
     }
 
+    @Override
+    public boolean possibleEnemyMoveTo() {
+        return false;
+    }
+
     public AbstractPosition moveTrigger() {
         return null;
     }

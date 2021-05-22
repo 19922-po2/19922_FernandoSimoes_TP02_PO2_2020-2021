@@ -18,6 +18,11 @@ public class Rock extends AbstractPosition {
     }
 
     @Override
+    public boolean possibleEnemyMoveTo() {
+        return false;
+    }
+
+    @Override
     public AbstractPosition moveTrigger() {
         return null;
     }
