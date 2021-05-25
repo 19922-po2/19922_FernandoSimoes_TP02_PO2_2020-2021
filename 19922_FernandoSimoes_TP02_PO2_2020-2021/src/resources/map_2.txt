@@ -9,7 +9,7 @@ WOOOOOOOOW
 WOOOOOOOOW
 WOOOOOOOOW
 WLLLLLLLLW
-J 1 2 % jogador
+J 1 1 % jogador
 D 1 6 2 2 6 8 % diamantes
 G 9 9 % portão
 

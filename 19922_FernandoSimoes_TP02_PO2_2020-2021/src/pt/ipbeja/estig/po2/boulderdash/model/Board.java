@@ -1,6 +1,5 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
-import javafx.scene.control.Alert;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -28,10 +27,9 @@ public class Board {
     private List<Rock> rockList;
     private List<Enemy> enemyList;
     private int currentLvl = 1;
-    private int endLvl = 0;
+    private int endGame = 0;
     private Timer timer;
     private int timerValue;
-
     private String playerName;
 
     public Board(String mapFile) {
@@ -45,44 +43,11 @@ public class Board {
         printBoard();
     }
 
-    public void triggerUp() {
-        int points = this.board[this.rockford.getLine() - 1][this.rockford.getCol()].increaseScore();
+    public void triggerEvents(int line, int col) {
+        int points = this.board[line][col].increaseScore();
         triggerScore(points);
         if (points > 0) {
-            removeDiamond(this.board[this.rockford.getLine() - 1][this.rockford.getCol()]);
-        }
-        triggerEntityFall();
-        triggerEnemyMovement();
-        movementScorePenalty();
-    }
-
-    public void triggerDown() {
-        int points = this.board[this.rockford.getLine() + 1][this.rockford.getCol()].increaseScore();
-        triggerScore(points);
-        if (points > 0) {
-            removeDiamond(this.board[this.rockford.getLine() + 1][this.rockford.getCol()]);
-        }
-        triggerEntityFall();
-        triggerEnemyMovement();
-        movementScorePenalty();
-    }
-
-    public void triggerRight() {
-        int points = this.board[this.rockford.getLine()][this.rockford.getCol() + 1].increaseScore();
-        triggerScore(points);
-        if (points > 0) {
-            removeDiamond(this.board[this.rockford.getLine()][this.rockford.getCol() + 1]);
-        }
-        triggerEntityFall();
-        triggerEnemyMovement();
-        movementScorePenalty();
-    }
-
-    public void triggerLeft() {
-        int points = this.board[this.rockford.getLine()][this.rockford.getCol() - 1].increaseScore();
-        triggerScore(points);
-        if (points > 0) {
-            removeDiamond(this.board[this.rockford.getLine()][this.rockford.getCol() - 1]);
+            removeDiamond(this.board[line][col]);
         }
         triggerEntityFall();
         triggerEnemyMovement();
@@ -137,7 +102,6 @@ public class Board {
     public void checkWin() {
         if (nGates == 1 && this.gate.getLine() == this.rockford.getLine() && this.gate.getCol() == this.rockford.getCol()) {
             this.view.lvlWon(this.score);
-            this.endLvl = 1;
 
             if (currentLvl < MAX_NUMBER_LEVELS) {
                 currentLvl++;
@@ -146,7 +110,9 @@ public class Board {
                 this.resetTimer();
                 this.view.timerRefresh(timerValue);
             } else {
-                //TODO game won + high scores
+                //TODO game won + high scores + restart?
+                this.endGame = 1;
+                this.view.gameOver(this.score);
             }
         }
     }
@@ -292,7 +258,7 @@ public class Board {
         }
     }
 
-    public static String[][] readFileToStringArray2D(String filename, String separator) {
+    public String[][] readFileToStringArray2D(String filename, String separator) {
         try {
             List<String> lines = Files.readAllLines(Paths.get(filename));
             String[][] allData = new String[lines.size()][];
@@ -302,16 +268,10 @@ public class Board {
             return allData;
         } catch (IOException e) {
             String errorMessage = "Error reading file " + filename;
-            showError(errorMessage);
+            view.showError(errorMessage);
             System.out.println(errorMessage + " - Exception " + e.toString());
             return new String[0][];
         }
-    }
-
-    private static void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     public int getScore() {
@@ -338,32 +298,8 @@ public class Board {
         return nCol;
     }
 
-    public Gate getGate() {
-        return this.gate;
-    }
-
-    public int getnGates() {
-        return nGates;
-    }
-
-    public void setnDiamonds(int nDiamonds) {
-        this.nDiamonds = nDiamonds;
-    }
-
-    public void setnGates(int nGates) {
-        this.nGates = nGates;
-    }
-
-    public void setEndLvl(int endLvl) {
-        this.endLvl = endLvl;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getEndLvl() {
-        return endLvl;
+    public int getCurrentLvl() {
+        return currentLvl;
     }
 
     public AbstractPosition[][] getBoard() {
@@ -433,34 +369,4 @@ public class Board {
     public int getTimerValue() {
         return this.timerValue;
     }
-
-    /*public void rockfordGoTo(int line, int col) {
-        if (this.board[line][col].possibleMoveTo()) {
-            //swap rockford with free tunnel
-            this.board[this.rockford.getLine()][this.rockford.getCol()] = new FreeTunnel(this.rockford.getLine(), this.rockford.getCol());
-            //triggers
-            int points = this.board[line][col].increaseScore();
-            if (points > 0) nDiamonds--;
-            if (nDiamonds == 0) {
-                board[this.gate.getLine()][this.gate.getCol()] = new Gate(this.gate.getLine(), this.gate.getCol());
-                nGates = 1;
-            }
-            this.score += points;
-            for (Diamond diamond : diamondList) {
-                if (diamond.getLine() + 1 < nLine && this.board[diamond.getLine() + 1][diamond.getCol()].canReceiveFallingObject()) {
-                    this.board[diamond.getLine()][diamond.getCol()] = new FreeTunnel(diamond.getLine(), diamond.getCol());
-                    diamond.setLine(diamond.getLine() + 1);
-                    this.board[diamond.getLine()][diamond.getCol()] = diamond;
-                }
-            }
-            //swaps target with rockford
-            this.board[line][col] = this.rockford;
-            this.rockford.setLine(line);
-            this.rockford.setCol(col);
-            //checks win
-            if (nGates == 1 && this.gate.getLine() == this.rockford.getLine() && this.gate.getCol() == this.rockford.getCol()) {
-                this.endLvl = 1;
-            }
-        }
-    }*/
 }

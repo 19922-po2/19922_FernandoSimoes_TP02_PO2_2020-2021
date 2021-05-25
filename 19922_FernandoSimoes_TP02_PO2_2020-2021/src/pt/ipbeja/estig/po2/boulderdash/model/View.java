@@ -16,4 +16,6 @@ public interface View {
     void setRockfordLivesCount();
     void timerRefresh(int timeValue);
     void enemyMoved(AbstractPosition enemy, AbstractPosition entity);
+    void showError(String message);
+    void gameOver(int score);
 }

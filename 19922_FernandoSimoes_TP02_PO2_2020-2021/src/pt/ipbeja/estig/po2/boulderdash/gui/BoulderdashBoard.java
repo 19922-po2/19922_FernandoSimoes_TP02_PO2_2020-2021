@@ -59,16 +59,20 @@ public class BoulderdashBoard extends HBox implements View {
                 event -> {
                     switch (event.getCode()) {
                         case W:
-                            this.board.getRockford().rockfordMoveUp(this.board, this.board.getnLine(), this);
+                            //this.board.getRockford().rockfordMoveUp(this.board, this.board.getnLine(), this);
+                            this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, -1, 0);
                             break;
                         case S:
-                            this.board.getRockford().rockfordMoveDown(this.board, this.board.getnLine(), this);
+                            //this.board.getRockford().rockfordMoveDown(this.board, this.board.getnLine(), this);
+                            this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, 1, 0);
                             break;
                         case A:
-                            this.board.getRockford().rockfordMoveLeft(this.board, this.board.getnCol(), this);
+                            //this.board.getRockford().rockfordMoveLeft(this.board, this.board.getnCol(), this);
+                            this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, 0, -1);
                             break;
                         case D:
-                            this.board.getRockford().rockfordMoveRight(this.board, this.board.getnCol(), this);
+                            //this.board.getRockford().rockfordMoveRight(this.board, this.board.getnCol(), this);
+                            this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, 0, 1);
                             break;
                     }
                 }
@@ -139,7 +143,15 @@ public class BoulderdashBoard extends HBox implements View {
     public void lvlWon(int score) {
         Alert gameWonAlert = new Alert(Alert.AlertType.INFORMATION);
         gameWonAlert.setTitle("LEVEL WON!");
-        gameWonAlert.setHeaderText("Score: " + score);
+        gameWonAlert.setHeaderText("Current Score: " + score);
+        gameWonAlert.showAndWait();
+    }
+
+    @Override
+    public void gameOver(int score) {
+        Alert gameWonAlert = new Alert(Alert.AlertType.INFORMATION);
+        gameWonAlert.setTitle("GAME WON!");
+        gameWonAlert.setHeaderText("Final Score: " + score);
         gameWonAlert.showAndWait();
     }
 
@@ -163,6 +175,12 @@ public class BoulderdashBoard extends HBox implements View {
         validatePlayerName(gameStartDialog.getEditor().getText());
         this.board.setPlayerName(gameStartDialog.getEditor().getText());
         this.board.startTimer();
+    }
+
+    public void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void validatePlayerName(String name) {
