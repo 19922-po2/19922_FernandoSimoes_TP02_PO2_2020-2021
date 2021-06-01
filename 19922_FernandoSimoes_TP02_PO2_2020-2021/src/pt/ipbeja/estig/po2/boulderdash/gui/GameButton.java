@@ -7,10 +7,10 @@ import pt.ipbeja.estig.po2.boulderdash.model.AbstractPosition;
 
 /**
  * @author Fernando Simões nº 19922
+ * GameButton class
+ * Images source: https://game-icons.net/
  */
-
 public class GameButton extends Button {
-    // https://game-icons.net/
     private static final Image DIAMOND = new Image("/resources/Diamond.png");
     private static final Image FREE_TUNNEL = new Image("/resources/FreeTunnel.png");
     private static final Image GATE = new Image("/resources/Gate.png");
@@ -21,13 +21,17 @@ public class GameButton extends Button {
     private static final Image ENEMY = new Image("/resources/Enemy.png");
     private ImageView imageView;
 
-
     public GameButton(AbstractPosition abstractPosition) {
         this.imageView = new ImageView(OCCUPIED_TUNNEL);
         setButtonImage(abstractPosition);
         this.setGraphic(this.imageView);
     }
 
+    /**
+     * Updates the image of the button acording to the param.
+     *
+     * @param position obejct to update its image.
+     */
     public void setButtonImage(AbstractPosition position) {
         position.setImage(this);
     }

@@ -45,7 +45,7 @@ public class BoulderdashBoard extends HBox implements View {
         this.gameScoreLabel = new Label("Score: " + this.board.getScore());
         this.currentDiamondCountLabel = new Label("Diamonds: " + this.board.getnDiamonds());
         this.playerNameLabel = new Label("Current Player:\n" + this.board.getPlayerName());
-        this.giveUpLevelButton = new Button("Give Up\n(Restart Lvl)");
+        this.giveUpLevelButton = new Button("Give Up\n(Restart Game)");
         this.giveUpLevelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -59,19 +59,15 @@ public class BoulderdashBoard extends HBox implements View {
                 event -> {
                     switch (event.getCode()) {
                         case W:
-                            //this.board.getRockford().rockfordMoveUp(this.board, this.board.getnLine(), this);
                             this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, -1, 0);
                             break;
                         case S:
-                            //this.board.getRockford().rockfordMoveDown(this.board, this.board.getnLine(), this);
                             this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, 1, 0);
                             break;
                         case A:
-                            //this.board.getRockford().rockfordMoveLeft(this.board, this.board.getnCol(), this);
                             this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, 0, -1);
                             break;
                         case D:
-                            //this.board.getRockford().rockfordMoveRight(this.board, this.board.getnCol(), this);
                             this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, 0, 1);
                             break;
                     }
@@ -79,14 +75,25 @@ public class BoulderdashBoard extends HBox implements View {
         );
     }
 
+    /**
+     * Updates the GUI with the current diamond amount.
+     */
     public void setDiamondCount() {
         this.currentDiamondCountLabel.setText("Diamonds: " + this.board.getnDiamonds());
     }
 
+    /**
+     * Updates the GUI with the current rockford lives.
+     */
     public void setRockfordLivesCount() {
         this.rockfordLivesLabel.setText("Rockford Lives: " + this.board.getRockford().getRockfordLives());
     }
 
+    /**
+     * Updates the GUI timer.
+     *
+     * @param timeValue current timer value.
+     */
     @Override
     public void timerRefresh(int timeValue) {
         Platform.runLater(() -> {
@@ -94,10 +101,16 @@ public class BoulderdashBoard extends HBox implements View {
         });
     }
 
+    /**
+     * Updates the GUI with the user score.
+     */
     public void setGameScore() {
         this.gameScoreLabel.setText("Score: " + this.board.getScore());
     }
 
+    /**
+     * Creates an array of arrays of buttons.
+     */
     public void createButtonGrid() {
         this.buttons = new GameButton[this.board.getnCol()][this.board.getnLine()];
         for (int line = 0; line < this.board.getnLine(); line++) {
@@ -109,12 +122,24 @@ public class BoulderdashBoard extends HBox implements View {
         }
     }
 
+    /**
+     * Updates the GUI whenever rockford moves.
+     *
+     * @param rockford rockford object.
+     * @param entity   object that "changes" places with rockford.
+     */
     @Override
     public void rockfordMoved(AbstractPosition rockford, AbstractPosition entity) {
         this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
         this.buttons[rockford.getCol()][rockford.getLine()].setButtonImage(rockford);
     }
 
+    /**
+     * Updates the GUI whenever an enemy moves.
+     *
+     * @param enemy  enemy object.
+     * @param entity object that "changes" places with the enemy.
+     */
     @Override
     public void enemyMoved(AbstractPosition enemy, AbstractPosition entity) {
         this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
@@ -122,23 +147,45 @@ public class BoulderdashBoard extends HBox implements View {
         //TODO test
     }
 
+    /**
+     * Updates the GUI whenever a diamond moves.
+     *
+     * @param diamond diamond object.
+     * @param entity  object that "changes" places with the diamond.
+     */
     @Override
     public void diamondMoved(AbstractPosition diamond, AbstractPosition entity) {
         this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
         this.buttons[diamond.getCol()][diamond.getLine()].setButtonImage(diamond);
     }
 
+
+    /**
+     * Updates the GUI whenever a rock moves.
+     *
+     * @param rock   rock object.
+     * @param entity object that "changes" places with the rock.
+     */
     @Override
     public void rockMoved(AbstractPosition rock, AbstractPosition entity) {
         this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
         this.buttons[rock.getCol()][rock.getLine()].setButtonImage(rock);
     }
 
-
+    /**
+     * Updates the GUI when a gate appears.
+     *
+     * @param gate gate object.
+     */
     public void gateAppeared(AbstractPosition gate) {
         this.buttons[gate.getCol()][gate.getLine()].setButtonImage(gate);
     }
 
+    /**
+     * Notifies the user that thee current level is over and shows the high score.
+     *
+     * @param score high score.
+     */
     @Override
     public void lvlWon(int score) {
         Alert gameWonAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -147,6 +194,11 @@ public class BoulderdashBoard extends HBox implements View {
         gameWonAlert.showAndWait();
     }
 
+    /**
+     * Notifies the user that thee game is over and shows the high score.
+     *
+     * @param score high score.
+     */
     @Override
     public void gameOver(int score) {
         Alert gameWonAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -155,6 +207,11 @@ public class BoulderdashBoard extends HBox implements View {
         gameWonAlert.showAndWait();
     }
 
+    /**
+     * Resets the playable board and adjusts the window.
+     *
+     * @param board board's logic.
+     */
     @Override
     public void resetBoard(Board board) {
         this.board = board;
@@ -166,6 +223,10 @@ public class BoulderdashBoard extends HBox implements View {
         this.myStage.sizeToScene();
     }
 
+    /**
+     * Text view that shows the user how to play the game.
+     * Asks the user for the name.
+     */
     public void gameStart() {
         TextInputDialog gameStartDialog = new TextInputDialog("(max 8 characters)");
         gameStartDialog.setTitle("BoulderDash Game");
@@ -177,14 +238,25 @@ public class BoulderdashBoard extends HBox implements View {
         this.board.startTimer();
     }
 
+    /**
+     * shows user an error message if there is a IO exception.
+     *
+     * @param message name of the file that caused the error.
+     */
     public void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(message);
         alert.showAndWait();
     }
 
+    /**
+     * Validates the player name.
+     * The number of characters must be smaller than 8.
+     *
+     * @param name name inputted by user.
+     */
     private void validatePlayerName(String name) {
-        if(name.length() > 8) {
+        if (name.length() > 8) {
             Alert nameError = new Alert(Alert.AlertType.INFORMATION);
             nameError.setTitle("Error");
             nameError.setHeaderText(null);

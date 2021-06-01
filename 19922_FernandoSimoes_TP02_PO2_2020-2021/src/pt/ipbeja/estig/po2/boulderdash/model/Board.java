@@ -9,9 +9,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * @author Fernando Simões nº 19922
+ * dummy view
+ * abstract entity extends
+ * exceptions gui
  */
 
+/**
+ * @author Fernando Simões nº 19922
+ * Model of the game, contains the logic part of the program.
+ */
 public class Board {
     private final int MAX_NUMBER_LEVELS = 3;
     private int nLine;
@@ -43,6 +49,12 @@ public class Board {
         printBoard();
     }
 
+    /**
+     * Triggers events according to the player's movement.
+     *
+     * @param line destination line.
+     * @param col  destination column.
+     */
     public void triggerEvents(int line, int col) {
         int points = this.board[line][col].increaseScore();
         triggerScore(points);
@@ -54,20 +66,26 @@ public class Board {
         movementScorePenalty();
     }
 
+    /**
+     * Triggers the falling of objects in the game.
+     */
     private void triggerEntityFall() {
         for (Rock rock : rockList) {
-            rock.triggerRockFall(this.board, this.nLine, view);
+            rock.moveEntity(this.board, this.nLine, this.nCol, view);
         }
         for (Diamond diamond : diamondList) {
-            diamond.triggerDiamondFall(this.board, this.nLine, view);
+            diamond.moveEntity(this.board, this.nLine, this.nCol, view);
         }
     }
 
+    /**
+     * Triggers the enemy movement.
+     */
     private void triggerEnemyMovement() {
         for (Enemy enemy : enemyList) {
-            enemy.enemyMove(this, this.nLine, this.nCol, view);
+            enemy.moveEntity(this.board, this.nLine, this.nCol, view);
             //TODO enemy kills rockford
-            if(enemy.getLine() == this.rockford.getLine() && enemy.getCol() == this.rockford.getCol()) {
+            if (enemy.getLine() == this.rockford.getLine() && enemy.getCol() == this.rockford.getCol()) {
                 System.out.println("DEATH");
                 this.rockford.setRockfordLives(this.rockford.getRockfordLives() - 1);
                 this.view.setRockfordLivesCount();
@@ -75,11 +93,19 @@ public class Board {
         }
     }
 
+    /**
+     * Decreased the player score by 5 points each time it moves.
+     */
     private void movementScorePenalty() {
         this.score -= 5;
         this.view.setGameScore();
     }
 
+    /**
+     * Updates the score.
+     *
+     * @param points points to add to the score.
+     */
     private void triggerScore(int points) {
         if (points > 0) nDiamonds--;
         checkDiamondCount();
@@ -87,10 +113,19 @@ public class Board {
         this.view.setDiamondCount();
     }
 
-    private void removeDiamond(AbstractPosition fallingObject) {
-        diamondList.removeIf(diamond -> diamond.equals(fallingObject));
+    /**
+     * Removes a diamond from the game after the player obtains it.
+     *
+     * @param diamond diamond to be removed from the list.
+     */
+    private void removeDiamond(AbstractPosition diamond) {
+        diamondList.removeIf(d -> d.equals(diamond));
     }
 
+    /**
+     * Checks the amount of diamonds in the board.
+     * If the number of diamonds is 0, the gate spawns.
+     */
     private void checkDiamondCount() {
         if (nDiamonds == 0) {
             board[this.gate.getLine()][this.gate.getCol()] = new Gate(this.gate.getLine(), this.gate.getCol());
@@ -99,6 +134,10 @@ public class Board {
         }
     }
 
+    /**
+     * Checks if the player won the game.
+     * The game is over when all the levels are completed.
+     */
     public void checkWin() {
         if (nGates == 1 && this.gate.getLine() == this.rockford.getLine() && this.gate.getCol() == this.rockford.getCol()) {
             this.view.lvlWon(this.score);
@@ -117,6 +156,11 @@ public class Board {
         }
     }
 
+    /**
+     * Resets the game board.
+     *
+     * @param mapFile file containing the map information.
+     */
     public void resetBoard(String mapFile) {
         this.nDiamonds = 0;
         this.diamondList = new ArrayList<Diamond>();
@@ -126,6 +170,11 @@ public class Board {
         this.view.resetBoard(this);
     }
 
+    /**
+     * Resets the game back to the initial level.
+     *
+     * @param mapFile file containing the map information.
+     */
     public void resetGame(String mapFile) {
         this.nGates = 0;
         this.nDiamonds = 0;
@@ -143,6 +192,12 @@ public class Board {
         this.resetTimer();
     }
 
+    /**
+     * Creates an array of arrays containing the games objects.
+     *
+     * @param mapFile file containing the map information.
+     * @return arrays of arrays containing the games objects.
+     */
     public AbstractPosition[][] createBoard(String mapFile) {
         this.nDiamonds = 0;
         String[][] linesArray = readFileToStringArray2D(mapFile, " ");
@@ -155,8 +210,16 @@ public class Board {
         return board;
     }
 
+    /**
+     * Creates a rockford object or changes its position if it already exists, because rockford is a singleton.
+     * In the map file, the "%" is always at position (3 + c * 2)
+     *
+     * @param counter    current counter of the column reading.
+     * @param i          current line of the lines array.
+     * @param linesArray arrays containing the information read from the map file.
+     * @param board      array of arrays with the game's information.
+     */
     private void createRockford(int counter, int i, String[][] linesArray, AbstractPosition[][] board) {
-        // the "%" is always at position 3 + c*2
         int line = Integer.parseInt(linesArray[i][3 + counter - 2]);
         int col = Integer.parseInt(linesArray[i][3 + counter - 1]);
         if (this.rockford == null) {
@@ -168,8 +231,16 @@ public class Board {
         board[line][col] = this.rockford;
     }
 
+    /**
+     * Creates a diamond object and adds it to a list of diamonds.
+     * In the map file, the "%" is always at position (3 + c * 2)
+     *
+     * @param counter    current counter of the column reading.
+     * @param i          current line of the lines array.
+     * @param linesArray arrays containing the information read from the map file.
+     * @param board      array of arrays with the game's information.
+     */
     private void createDiamond(int counter, int i, String[][] linesArray, AbstractPosition[][] board) {
-        // the "%" is always at position 3 + c*2
         int line = Integer.parseInt(linesArray[i][3 + counter - 2]);
         int col = Integer.parseInt(linesArray[i][3 + counter - 1]);
         board[line][col] = new Diamond(line, col);
@@ -177,12 +248,28 @@ public class Board {
         this.nDiamonds++;
     }
 
+    /**
+     * Creates a Gate object.
+     *
+     * @param counter    current counter of the column reading.
+     * @param i          current line of the lines array.
+     * @param linesArray arrays containing the information read from the map file.
+     */
     private void createGate(int counter, int i, String[][] linesArray) {
         int line = Integer.parseInt(linesArray[i][3 + counter - 2]);
         int col = Integer.parseInt(linesArray[i][3 + counter - 1]);
         this.gate = new Gate(line, col);
     }
 
+    /**
+     * Creates an enemy object and adds it to a list of enemies.
+     * In the map file, the "%" is always at position (3 + c * 2)
+     *
+     * @param counter    current counter of the column reading.
+     * @param i          current line of the lines array.
+     * @param linesArray arrays containing the information read from the map file.
+     * @param board      array of arrays with the game's information.
+     */
     private void createEnemy(int counter, int i, String[][] linesArray, AbstractPosition[][] board) {
         int line = Integer.parseInt(linesArray[i][3 + counter - 2]);
         int col = Integer.parseInt(linesArray[i][3 + counter - 1]);
@@ -190,6 +277,13 @@ public class Board {
         this.enemyList.add((Enemy) board[line][col]); //saves enemy on list
     }
 
+    /**
+     * Populates the board with various entities.
+     *
+     * @param nLines     number of lines.
+     * @param linesArray arrays containing the information read from the map file.
+     * @param board      array of arrays with the game's information.
+     */
     private void populate(int nLines, String[][] linesArray, AbstractPosition[][] board) {
         // the "%" is always at position 3 + c*2
         int counter = 0;
@@ -236,6 +330,14 @@ public class Board {
         }
     }
 
+    /**
+     * Creates a map of the game.
+     *
+     * @param nLines     number of lines.
+     * @param nCols      number of columns.
+     * @param linesArray arrays containing the information read from the map file.
+     * @param board      array of arrays with the game's information.
+     */
     private void fillMap(int nLines, int nCols, String[][] linesArray, AbstractPosition[][] board) {
         for (int i = 0; i < nLines; i++) {
             for (int j = 0; j < nCols; j++) {
@@ -258,6 +360,13 @@ public class Board {
         }
     }
 
+    /**
+     * Read a file line by line and saves it, into a 2D array, where each word is saved into a position.
+     *
+     * @param filename  name of the file to be read.
+     * @param separator character to separate the lines.
+     * @return array of arrays containing the information read from the file.
+     */
     public String[][] readFileToStringArray2D(String filename, String separator) {
         try {
             List<String> lines = Files.readAllLines(Paths.get(filename));
@@ -266,7 +375,7 @@ public class Board {
                 allData[i] = lines.get(i).split(separator);
             }
             return allData;
-        } catch (IOException e) {
+        } catch (IOException e) { //sends IO exception to the view
             String errorMessage = "Error reading file " + filename;
             view.showError(errorMessage);
             System.out.println(errorMessage + " - Exception " + e.toString());
@@ -322,6 +431,9 @@ public class Board {
         this.playerName = playerName;
     }
 
+    /**
+     * Prints the board to the command line.
+     */
     public void printBoard() {
         for (int i = 0; i < nLine; i++) {
             for (int j = 0; j < nCol; j++) {

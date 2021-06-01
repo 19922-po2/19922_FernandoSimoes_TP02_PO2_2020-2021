@@ -1,6 +1,14 @@
-package pt.ipbeja.estig.po2.boulderdash.model;
+package pt.ipbeja.estig.po2.boulderdash.gui;
 
-public class DummyView implements View{
+import pt.ipbeja.estig.po2.boulderdash.model.AbstractPosition;
+import pt.ipbeja.estig.po2.boulderdash.model.Board;
+import pt.ipbeja.estig.po2.boulderdash.model.View;
+
+/**
+ * @author Fernando Simões nº 19922
+ * Dummy Class for testing purpuses.
+ */
+public class DummyView implements View {
 
     @Override
     public void rockfordMoved(AbstractPosition rockford, AbstractPosition entity) {

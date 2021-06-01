@@ -6,7 +6,7 @@ import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
  * @author Fernando Simões nº 19922
  */
 
-public class Rockford extends AbstractPosition{
+public class Rockford extends AbstractEntity {
 
     private static Rockford instance = null;
     private int rockfordLives;
@@ -18,8 +18,8 @@ public class Rockford extends AbstractPosition{
     }
 
     public static Rockford getInstance(int line, int col) {
-        if(instance == null) {
-            instance = new Rockford(line,  col);
+        if (instance == null) {
+            instance = new Rockford(line, col);
         }
         return instance;
     }
@@ -52,10 +52,15 @@ public class Rockford extends AbstractPosition{
         return false;
     }
 
+    @Override
+    public void moveEntity(AbstractPosition[][] board, int nLine, int nCol, View view) {
+
+    }
+
     public void rockfordMove(Board board, int nLine, int nCol, View view, int lineMovement, int colMovement) {
         int destLine = this.getLine() + lineMovement;
         int destCol = this.getCol() + colMovement;
-        if(destLine >= 0 &&  destLine < nLine && destCol >= 0 && destCol < nCol &&  //verifies if the movement is within the array bounds
+        if (destLine >= 0 && destLine < nLine && destCol >= 0 && destCol < nCol &&  //verifies if the movement is within the array bounds
                 board.getBoard()[destLine][destCol].possibleMoveTo() &&             // verifies if it is possible to move
                 this.getLine() >= 0 && this.getLine() < nLine && this.getCol() >= 0 && this.getCol() < nCol) { //verifies if rockford is within the array
             //swaps rockford with free tunnel
@@ -69,8 +74,6 @@ public class Rockford extends AbstractPosition{
             //refresh view
             view.rockfordMoved(this, board.getBoard()[destLine - lineMovement][destCol - colMovement]);
             board.checkWin();
-            //System.out.println("TURN");
-            //board.printBoard();
         }
     }
 

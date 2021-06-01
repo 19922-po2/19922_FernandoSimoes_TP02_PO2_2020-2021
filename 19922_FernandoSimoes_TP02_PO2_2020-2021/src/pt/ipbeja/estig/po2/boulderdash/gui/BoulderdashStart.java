@@ -8,7 +8,6 @@ import pt.ipbeja.estig.po2.boulderdash.model.Board;
 /**
  * @author Fernando Simões nº 19922
  */
-
 public class BoulderdashStart extends Application {
 
     @Override

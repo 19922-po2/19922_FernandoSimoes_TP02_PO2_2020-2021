@@ -6,7 +6,7 @@ import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
  * @author Fernando Simões nº 19922
  */
 
-public class Diamond extends AbstractPosition {
+public class Diamond extends AbstractEntity {
     private final int DIAMOND_SCORE = 100;
 
     public Diamond(int line, int col) {
@@ -23,7 +23,7 @@ public class Diamond extends AbstractPosition {
         return false;
     }
 
-    public void triggerDiamondFall(AbstractPosition[][] board, int nLine, View view) {
+    public void moveEntity(AbstractPosition[][] board, int nLine, int nCol, View view) {
         if (this.getLine() + 1 < nLine && board[this.getLine() + 1][this.getCol()].canReceiveFallingObject()) {
             board[this.getLine()][this.getCol()] = new FreeTunnel(this.getLine(), this.getCol());
             this.setLine(this.getLine() + 1);

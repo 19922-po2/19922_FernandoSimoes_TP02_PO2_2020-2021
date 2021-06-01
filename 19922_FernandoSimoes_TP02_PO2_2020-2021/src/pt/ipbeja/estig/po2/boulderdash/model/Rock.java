@@ -6,7 +6,7 @@ import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
  * @author Fernando Simões nº 19922
  */
 
-public class Rock extends AbstractPosition {
+public class Rock extends AbstractEntity {
 
     public Rock(int line, int col) {
         super(line, col);
@@ -32,7 +32,7 @@ public class Rock extends AbstractPosition {
         return false;
     }
 
-    public void triggerRockFall(AbstractPosition[][] board, int nLine, View view) {
+    public void moveEntity(AbstractPosition[][] board, int nLine, int nCol, View view) {
         if (this.getLine() + 1 < nLine && board[this.getLine() + 1][this.getCol()].canReceiveFallingObject()) {
             board[this.getLine()][this.getCol()] = new FreeTunnel(this.getLine(), this.getCol());
             this.setLine(this.getLine() + 1);
