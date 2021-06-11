@@ -38,7 +38,7 @@ class BoardTest {
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();
         //movement to free tunnel
-        this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 1, 1); // line+1, col+1
+        this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 1, 1); // line+1, col+1
         System.out.println("MOVE");
         this.board.printBoard();
         //next rockford position
@@ -61,7 +61,7 @@ class BoardTest {
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();
         //movement to wall
-        this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this.view, -1, 0); // line-1, col
+        this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this.view, -1, 0); // line-1, col
         System.out.println("MOVE");
         this.board.printBoard();
         //next rockford position
@@ -84,7 +84,7 @@ class BoardTest {
         int previousLine = this.board.getRockford().getLine();
         int previousCol = this.board.getRockford().getCol();
         //movement to Rock
-        this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, -2); // line, col-2
+        this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, -2); // line, col-2
         System.out.println("MOVE");
         this.board.printBoard();
         //next rockford position
@@ -109,7 +109,7 @@ class BoardTest {
         int previousCol = this.board.getRockford().getCol();
         int previousScore = this.board.getScore();
         //movement to Diamond
-        this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, +3); // line, col+3
+        this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, +3); // line, col+3
         System.out.println("MOVE");
         this.board.printBoard();
         //next rockford position
@@ -135,8 +135,8 @@ class BoardTest {
         int previousDiamondLine = diamond.getLine();
         int previousDiamondCol = diamond.getCol();
         //movement to occupied tunnel with a diamond above, then movement to the adjacent tile to make the diamond fall
-        this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 1, 3); // line+1, col+3
-        this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, 1); // line, col+1
+        this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 1, 3); // line+1, col+3
+        this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, 1); // line, col+1
         //next rockford position
         int nextLine = this.board.getRockford().getLine();
         int nextCol = this.board.getRockford().getCol();
@@ -162,9 +162,9 @@ class BoardTest {
         int previousCol = this.board.getRockford().getCol();
         int previousScore = this.board.getScore();
         //movement to diamond to trigger the gate
-        this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, +3); // line, col+3
+        this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, +3); // line, col+3
         //movement to gate
-        this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, +7); // line, col+7
+        this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, +7); // line, col+7
         //next rockford position
         int nextLine = this.board.getRockford().getLine();
         int nextCol = this.board.getRockford().getCol();

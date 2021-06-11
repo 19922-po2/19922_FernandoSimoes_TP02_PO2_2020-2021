@@ -10,7 +10,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import pt.ipbeja.estig.po2.boulderdash.model.AbstractPosition;
 import pt.ipbeja.estig.po2.boulderdash.model.Board;
+import pt.ipbeja.estig.po2.boulderdash.model.Score;
 import pt.ipbeja.estig.po2.boulderdash.model.View;
+
+import java.util.List;
 
 /**
  * @author Fernando Simões nº 19922
@@ -28,6 +31,7 @@ public class BoulderdashBoard extends HBox implements View {
     private Button giveUpLevelButton;
     private Label playerNameLabel;
     private Label timerLabel;
+    private TextArea highScores;
 
     public BoulderdashBoard(Board board, Stage myStage) {
         this.gameBoard = new GridPane();
@@ -46,29 +50,33 @@ public class BoulderdashBoard extends HBox implements View {
         this.currentDiamondCountLabel = new Label("Diamonds: " + this.board.getnDiamonds());
         this.playerNameLabel = new Label("Current Player:\n" + this.board.getPlayerName());
         this.giveUpLevelButton = new Button("Give Up\n(Restart Game)");
+        this.highScores = new TextArea("HIGH SCORES:\nName Level Score\n");
+        this.highScores.setEditable(false);
+        this.highScores.setPrefSize(120, 150);
         this.giveUpLevelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 board.resetGame("src/resources/map_1.txt");
             }
         });
-        this.gameInfoVBOX.getChildren().addAll(timerLabel, playerNameLabel, rockfordLivesLabel, gameScoreLabel, currentDiamondCountLabel, giveUpLevelButton);
+        this.gameInfoVBOX.getChildren().addAll(timerLabel, playerNameLabel, rockfordLivesLabel, gameScoreLabel,
+                currentDiamondCountLabel, giveUpLevelButton, highScores);
         this.getChildren().addAll(gameInfoVBOX, gameBoard);
 
         this.setOnKeyPressed(
                 event -> {
                     switch (event.getCode()) {
                         case W:
-                            this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, -1, 0);
+                            this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this, -1, 0);
                             break;
                         case S:
-                            this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, 1, 0);
+                            this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this, 1, 0);
                             break;
                         case A:
-                            this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, 0, -1);
+                            this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this, 0, -1);
                             break;
                         case D:
-                            this.board.getRockford().rockfordMove(this.board, this.board.getnLine(), this.board.getnCol(), this, 0, 1);
+                            this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this, 0, 1);
                             break;
                     }
                 }
@@ -144,7 +152,6 @@ public class BoulderdashBoard extends HBox implements View {
     public void enemyMoved(AbstractPosition enemy, AbstractPosition entity) {
         this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
         this.buttons[enemy.getCol()][enemy.getLine()].setButtonImage(enemy);
-        //TODO test
     }
 
     /**
@@ -205,6 +212,16 @@ public class BoulderdashBoard extends HBox implements View {
         gameWonAlert.setTitle("GAME WON!");
         gameWonAlert.setHeaderText("Final Score: " + score);
         gameWonAlert.showAndWait();
+    }
+
+    /**
+     * shows the high scores to the user.
+     */
+    @Override
+    public void showScores(List<Score> highScores) {
+        for(Score score : highScores) {
+            this.highScores.appendText(score + "\n");
+        }
     }
 
     /**

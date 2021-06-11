@@ -14,6 +14,7 @@ public class Diamond extends AbstractEntity {
         System.out.println("spawned Diamond...");
     }
 
+    @Override
     public boolean possibleMoveTo() {
         return true;
     }

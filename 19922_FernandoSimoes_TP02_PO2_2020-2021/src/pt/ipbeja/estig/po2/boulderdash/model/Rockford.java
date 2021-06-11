@@ -4,8 +4,8 @@ import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
 
 /**
  * @author Fernando Simões nº 19922
+ * Rockford is a singleton class playable by the user.
  */
-
 public class Rockford extends AbstractEntity {
 
     private static Rockford instance = null;
@@ -32,32 +32,52 @@ public class Rockford extends AbstractEntity {
         this.rockfordLives = rockfordLives;
     }
 
+    /**
+     * Checks if rockford can move into it.
+     * @return
+     */
     @Override
     public boolean possibleMoveTo() {
         return true;
     }
 
+    /**
+     * Checks if enemies can move into it.
+     * @return
+     */
     @Override
     public boolean possibleEnemyMoveTo() {
         return true;
     }
 
+    /**
+     * Checks for special triggers.
+     * @return
+     */
     @Override
     public AbstractPosition moveTrigger() {
         return null;
     }
 
+    /**
+     * Checks if falling objects can move into it.
+     * @return
+     */
     @Override
     public boolean canReceiveFallingObject() {
         return false;
     }
 
-    @Override
-    public void moveEntity(AbstractPosition[][] board, int nLine, int nCol, View view) {
-
-    }
-
-    public void rockfordMove(Board board, int nLine, int nCol, View view, int lineMovement, int colMovement) {
+    /**
+     * Moves Rockford according to user input.
+     * @param board Game board.
+     * @param nLine Number of lines in the board.
+     * @param nCol Number of columns in the board.
+     * @param view Game view.
+     * @param lineMovement Destination line (left or right).
+     * @param colMovement Destination Column (up or down).
+     */
+    public void moveEntity(Board board, int nLine, int nCol, View view, int lineMovement, int colMovement) {
         int destLine = this.getLine() + lineMovement;
         int destCol = this.getCol() + colMovement;
         if (destLine >= 0 && destLine < nLine && destCol >= 0 && destCol < nCol &&  //verifies if the movement is within the array bounds
@@ -85,5 +105,10 @@ public class Rockford extends AbstractEntity {
     @Override
     public void print() {
         System.out.print("X");
+    }
+
+    @Override
+    public void moveEntity(AbstractPosition[][] board, int nLine, int nCol, View view) {
+
     }
 }

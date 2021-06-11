@@ -34,6 +34,10 @@ public abstract class AbstractPosition {
 
     public abstract boolean canReceiveFallingObject();
 
+    /**
+     * Returns the score according to the entity.
+     * @return amount of score points.
+     */
     public int increaseScore() {
         return 0;
     }

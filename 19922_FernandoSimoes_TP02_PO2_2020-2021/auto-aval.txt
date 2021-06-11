@@ -1,0 +1,21 @@
+Requisitos Essenciais
+
+Req. E1- Completo
+Req. E2- Completo
+Req. E3- Completo
+Req. E4- Completo
+Req. E5- Completo
+Req. E6- Completo
+
+Requisitos não Essenciais
+
+Req. NE1- Completo
+Req. NE2- Completo
+Req. NE3- Completo
+Req. NE4- 
+Req. NE5- Completo
+Req. NE6- Completo
+Req. NE7-
+Req. NE8- Completo(diagrama)
+
+Tempo gasto para o trabalho:

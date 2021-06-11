@@ -11,6 +11,7 @@ public class FreeTunnel extends AbstractPosition {
         super(line, col);
     }
 
+    @Override
     public boolean possibleMoveTo() {
         return true;
     }
@@ -20,6 +21,7 @@ public class FreeTunnel extends AbstractPosition {
         return true;
     }
 
+    @Override
     public AbstractPosition moveTrigger() {
         return null;
     }

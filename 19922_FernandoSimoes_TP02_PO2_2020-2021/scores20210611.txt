@@ -1,0 +1,13 @@
+laila 1 95
+mike 1 80
+poe 1 -40
+dan 1 70
+leto 3 110
+elk 3 250
+felix 3 60
+flax 3 50
+aby 1 40
+bob 1 30
+kay 1 20
+dsd 1 10
+batman 1 95

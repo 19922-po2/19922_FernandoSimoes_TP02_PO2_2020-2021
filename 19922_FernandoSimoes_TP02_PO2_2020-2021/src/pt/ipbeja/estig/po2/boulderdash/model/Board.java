@@ -3,16 +3,8 @@ package pt.ipbeja.estig.po2.boulderdash.model;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-/**
- * dummy view
- * abstract entity extends
- * exceptions gui
- */
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  * @author Fernando Simões nº 19922
@@ -23,6 +15,7 @@ public class Board {
     private int nLine;
     private int nCol;
     private int score;
+    //private List<Score> highScores;
     private int nDiamonds;
     private int nGates;
     private Rockford rockford;
@@ -80,15 +73,23 @@ public class Board {
 
     /**
      * Triggers the enemy movement.
+     * Checks if rockford is in the way, if it is rockford loses a life.
      */
     private void triggerEnemyMovement() {
         for (Enemy enemy : enemyList) {
             enemy.moveEntity(this.board, this.nLine, this.nCol, view);
-            //TODO enemy kills rockford
             if (enemy.getLine() == this.rockford.getLine() && enemy.getCol() == this.rockford.getCol()) {
-                System.out.println("DEATH");
+
                 this.rockford.setRockfordLives(this.rockford.getRockfordLives() - 1);
                 this.view.setRockfordLivesCount();
+
+                if (this.rockford.getRockfordLives() == 0) {
+                    this.view.gameOver(this.score);
+                    updateHighScoresFile();
+                    resetGame("src/resources/map_1.txt");
+                } else {
+                    resetBoard("src/resources/map_" + currentLvl + ".txt");
+                }
             }
         }
     }
@@ -137,22 +138,78 @@ public class Board {
     /**
      * Checks if the player won the game.
      * The game is over when all the levels are completed.
+     * Updates and shows top 5 high scores.
      */
     public void checkWin() {
         if (nGates == 1 && this.gate.getLine() == this.rockford.getLine() && this.gate.getCol() == this.rockford.getCol()) {
+
             this.view.lvlWon(this.score);
 
-            if (currentLvl < MAX_NUMBER_LEVELS) {
+            if (currentLvl < MAX_NUMBER_LEVELS - 2) { //TODO remove -2
                 currentLvl++;
                 resetBoard("src/resources/map_" + currentLvl + ".txt");
                 this.view.setDiamondCount();
                 this.resetTimer();
                 this.view.timerRefresh(timerValue);
             } else {
-                //TODO game won + high scores + restart?
                 this.endGame = 1;
+
+                updateHighScoresFile();
+                List<Score> nextHighScore = readHighScores();
+                Score score = new Score(this.playerName, String.valueOf(currentLvl), String.valueOf(this.score));
+                if (nextHighScore.contains(score)) {
+                    System.out.println("FOUND: " + nextHighScore.indexOf(score));
+                    nextHighScore.get(nextHighScore.indexOf(score)).setScore(score.getScore() + "***");
+                }
+                this.view.showScores(nextHighScore);
                 this.view.gameOver(this.score);
             }
+        }
+    }
+
+    /**
+     * Reads high scores from text file. (format: Name Level Score)
+     */
+    private List<Score> readHighScores() {
+        String date = "scores" + LocalDate.now().toString().replace("-", "") + ".txt";
+        List<Score> highScores = new ArrayList<>();
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(date));
+            String[][] allData = new String[lines.size()][];
+            for (int i = 0; i < lines.size(); i++) {
+                allData[i] = lines.get(i).split(" ");
+            }
+            highScores = new ArrayList<>();
+            for (int k = 0; k < allData.length; k++) {
+                highScores.add(new Score(allData[k][0], allData[k][1], allData[k][2]));
+            }
+            ScoreComparator scoreComparator = new ScoreComparator();
+            Collections.sort(highScores, scoreComparator);
+        } catch (IOException e) {
+            String errorMessage = "Error reading file " + date;
+            view.showError(errorMessage);
+            System.out.println(errorMessage + " - Exception " + e.toString());
+        }
+        highScores.subList(5, highScores.size()).clear(); // removes all except the first top 5
+        System.out.println(highScores);
+        return highScores;
+    }
+
+    /**
+     * Updates the high scores file. (scoresAAAAMMDD.txt)
+     * Name/Level/Score
+     */
+    private void updateHighScoresFile() {
+        String date = "scores" + LocalDate.now().toString().replace("-", "") + ".txt";
+        File highScores = new File(date);
+        try {
+            FileWriter myWriter = new FileWriter(highScores, true);
+            myWriter.write(this.playerName + " " + this.currentLvl + " " + this.score + "\n");
+            myWriter.close();
+        } catch (IOException e) { //sends IO exception to the view
+            String errorMessage = "Error creating file " + date;
+            view.showError(errorMessage);
+            System.out.println(errorMessage + " - Exception " + e.toString());
         }
     }
 
@@ -279,13 +336,14 @@ public class Board {
 
     /**
      * Populates the board with various entities.
+     * Ignores the comments (everything after the '%' character).
+     * The "%" is always at position 3 + c*2.
      *
      * @param nLines     number of lines.
      * @param linesArray arrays containing the information read from the map file.
      * @param board      array of arrays with the game's information.
      */
     private void populate(int nLines, String[][] linesArray, AbstractPosition[][] board) {
-        // the "%" is always at position 3 + c*2
         int counter = 0;
         for (int i = nLines; i < linesArray.length; i++) {
             switch (linesArray[i][0]) {

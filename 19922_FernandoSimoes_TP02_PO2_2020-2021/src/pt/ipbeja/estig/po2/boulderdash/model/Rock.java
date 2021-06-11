@@ -13,6 +13,7 @@ public class Rock extends AbstractEntity {
         System.out.println("spawned Rock...");
     }
 
+    @Override
     public boolean possibleMoveTo() {
         return false;
     }

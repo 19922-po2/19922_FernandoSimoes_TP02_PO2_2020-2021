@@ -2,7 +2,10 @@ package pt.ipbeja.estig.po2.boulderdash.gui;
 
 import pt.ipbeja.estig.po2.boulderdash.model.AbstractPosition;
 import pt.ipbeja.estig.po2.boulderdash.model.Board;
+import pt.ipbeja.estig.po2.boulderdash.model.Score;
 import pt.ipbeja.estig.po2.boulderdash.model.View;
+
+import java.util.List;
 
 /**
  * @author Fernando Simões nº 19922
@@ -72,6 +75,11 @@ public class DummyView implements View {
 
     @Override
     public void gameOver(int score) {
+
+    }
+
+    @Override
+    public void showScores(List<Score> highScores) {
 
     }
 }

@@ -1,5 +1,7 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
+import java.util.List;
+
 /**
  * @author Fernando Simões nº 19922
  */
@@ -30,4 +32,6 @@ public interface View {
     void showError(String message);
 
     void gameOver(int score);
+
+    void showScores(List<Score> highScores);
 }

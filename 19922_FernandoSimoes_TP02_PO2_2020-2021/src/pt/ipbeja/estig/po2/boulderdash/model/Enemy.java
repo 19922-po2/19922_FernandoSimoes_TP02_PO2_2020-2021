@@ -57,7 +57,7 @@ public class Enemy extends AbstractEntity {
 
     @Override
     public boolean possibleMoveTo() {
-        return false;
+        return true;
     }
 
     @Override

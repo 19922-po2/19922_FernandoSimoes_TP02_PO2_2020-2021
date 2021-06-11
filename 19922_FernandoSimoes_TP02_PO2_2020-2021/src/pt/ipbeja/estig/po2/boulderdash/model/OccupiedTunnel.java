@@ -12,6 +12,7 @@ public class OccupiedTunnel extends AbstractPosition {
         super(line, col);
     }
 
+    @Override
     public boolean possibleMoveTo() {
         return true;
     }
@@ -21,6 +22,7 @@ public class OccupiedTunnel extends AbstractPosition {
         return false;
     }
 
+    @Override
     public AbstractPosition moveTrigger() {
         return new FreeTunnel(this.getLine(), this.getCol());
     }
