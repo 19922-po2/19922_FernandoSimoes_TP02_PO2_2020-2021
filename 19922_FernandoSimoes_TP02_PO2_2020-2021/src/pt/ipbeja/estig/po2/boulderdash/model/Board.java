@@ -15,7 +15,6 @@ public class Board {
     private int nLine;
     private int nCol;
     private int score;
-    //private List<Score> highScores;
     private int nDiamonds;
     private int nGates;
     private Rockford rockford;
@@ -26,7 +25,7 @@ public class Board {
     private List<Rock> rockList;
     private List<Enemy> enemyList;
     private int currentLvl = 1;
-    private int endGame = 0;
+    private int endGame;
     private Timer timer;
     private int timerValue;
     private String playerName;
@@ -34,6 +33,7 @@ public class Board {
     public Board(String mapFile) {
         this.timer = new Timer();
         this.score = 0;
+        this.endGame = 0;
         this.nDiamonds = 0;
         this.diamondList = new ArrayList<Diamond>();
         this.rockList = new ArrayList<Rock>();
@@ -78,8 +78,15 @@ public class Board {
     private void triggerEnemyMovement() {
         for (Enemy enemy : enemyList) {
             enemy.moveEntity(this.board, this.nLine, this.nCol, view);
-            if (enemy.getLine() == this.rockford.getLine() && enemy.getCol() == this.rockford.getCol()) {
+        }
+    }
 
+    /**
+     * Checks in rockford and enemy are in the same spot
+     */
+    public void checkEnemyCollision() {
+        for (Enemy enemy : enemyList) {
+            if (enemy.getLine() == this.rockford.getLine() && enemy.getCol() == this.rockford.getCol()) {
                 this.rockford.setRockfordLives(this.rockford.getRockfordLives() - 1);
                 this.view.setRockfordLivesCount();
 
@@ -88,6 +95,7 @@ public class Board {
                     updateHighScoresFile();
                     resetGame("src/resources/map_1.txt");
                 } else {
+                    this.view.rockfordDied();
                     resetBoard("src/resources/map_" + currentLvl + ".txt");
                 }
             }
@@ -145,7 +153,7 @@ public class Board {
 
             this.view.lvlWon(this.score);
 
-            if (currentLvl < MAX_NUMBER_LEVELS - 2) { //TODO remove -2
+            if (currentLvl < MAX_NUMBER_LEVELS) {
                 currentLvl++;
                 resetBoard("src/resources/map_" + currentLvl + ".txt");
                 this.view.setDiamondCount();
@@ -153,12 +161,11 @@ public class Board {
                 this.view.timerRefresh(timerValue);
             } else {
                 this.endGame = 1;
-
-                updateHighScoresFile();
-                List<Score> nextHighScore = readHighScores();
+                updateHighScoresFile(); //updates high scores file
+                List<Score> nextHighScore = readHighScores(); //get the top 5
                 Score score = new Score(this.playerName, String.valueOf(currentLvl), String.valueOf(this.score));
                 if (nextHighScore.contains(score)) {
-                    System.out.println("FOUND: " + nextHighScore.indexOf(score));
+                    //System.out.println("FOUND: " + nextHighScore.indexOf(score));
                     nextHighScore.get(nextHighScore.indexOf(score)).setScore(score.getScore() + "***");
                 }
                 this.view.showScores(nextHighScore);
@@ -169,6 +176,8 @@ public class Board {
 
     /**
      * Reads high scores from text file. (format: Name Level Score)
+     *
+     * @return list containing the sorted top 5 scores.
      */
     private List<Score> readHighScores() {
         String date = "scores" + LocalDate.now().toString().replace("-", "") + ".txt";
@@ -503,6 +512,7 @@ public class Board {
 
     /**
      * Creates a new timer and sets the timer count to zero
+     * Code from fifteen game (Moodle).
      */
     public void resetTimer() {
         this.timerValue = -1;
@@ -511,6 +521,7 @@ public class Board {
 
     /**
      * Starts timer
+     * Code from fifteen game (Moodle).
      */
     public void startTimer() {
         this.resetTimer();
@@ -526,6 +537,7 @@ public class Board {
 
     /**
      * Stops the current timer
+     * Code from fifteen game (Moodle).
      */
     public void stopTimer() {
         timer.cancel();
@@ -533,6 +545,7 @@ public class Board {
 
     /**
      * Get current timer value
+     * Code from fifteen game (Moodle).
      *
      * @return time in seconds
      */

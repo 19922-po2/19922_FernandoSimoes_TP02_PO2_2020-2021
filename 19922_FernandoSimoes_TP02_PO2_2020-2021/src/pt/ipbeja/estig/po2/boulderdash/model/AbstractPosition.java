@@ -1,8 +1,10 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
-
 import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
 
+/**
+ * @author Fernando Simões nº 19922
+ */
 public abstract class AbstractPosition {
     private int line;
     private int col;
@@ -28,23 +30,49 @@ public abstract class AbstractPosition {
         this.col = col;
     }
 
+    /**
+     * Checks if rockford can move into it.
+     *
+     * @return
+     */
     public abstract boolean possibleMoveTo();
 
+    /**
+     * Checks if enemies can move into it.
+     *
+     * @return
+     */
     public abstract boolean possibleEnemyMoveTo();
 
+    /**
+     * Checks if falling objects can move into it.
+     *
+     * @return
+     */
     public abstract boolean canReceiveFallingObject();
 
     /**
      * Returns the score according to the entity.
+     *
      * @return amount of score points.
      */
     public int increaseScore() {
         return 0;
     }
 
-    public abstract void print();
-
+    /**
+     * Changes button image.
+     *
+     * @param button
+     */
     public abstract void setImage(GameButton button);
 
+    /**
+     * Checks for special triggers.
+     *
+     * @return
+     */
     public abstract AbstractPosition moveTrigger();
+
+    public abstract void print();
 }

@@ -1,21 +1,26 @@
 Requisitos Essenciais
 
-Req. E1- Completo
-Req. E2- Completo
-Req. E3- Completo
-Req. E4- Completo
-Req. E5- Completo
-Req. E6- Completo
+Req. E1- Completo (0.5)
+Req. E2- Completo (4.0)
+Req. E3- Completo (1.5)
+Req. E4- Completo (2.0)
+Req. E5- Completo (1.5)
+Req. E6- Completo (0.5)
+valores: 10
 
 Requisitos não Essenciais
 
-Req. NE1- Completo
-Req. NE2- Completo
-Req. NE3- Completo
-Req. NE4- 
-Req. NE5- Completo
-Req. NE6- Completo
+Req. NE1- Completo (2.0)
+Req. NE2- Completo (0.5)
+Req. NE3- Completo (1.0)
+Req. NE4- Completo (1.0)
+Req. NE5- Completo (0.5)
+Req. NE6- Completo (0.5)
 Req. NE7-
-Req. NE8- Completo(diagrama)
+Req. NE8- Completo (1.0)
+valores: 6.5
+
+Classificação final: 16.5
 
 Tempo gasto para o trabalho:
+Cerca de 20 horas no total.

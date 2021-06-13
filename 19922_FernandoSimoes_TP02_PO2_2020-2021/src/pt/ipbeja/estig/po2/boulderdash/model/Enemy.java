@@ -4,6 +4,10 @@ import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
 
 import java.util.Random;
 
+/**
+ * @author Fernando Simões nº 19922
+ */
+
 public class Enemy extends AbstractEntity {
 
     Random randInt = new Random(); //rng to decide enemy movement
@@ -13,6 +17,14 @@ public class Enemy extends AbstractEntity {
         System.out.println("spawned Enemy...");
     }
 
+    /**
+     * Generates a random number to move the enemy.
+     *
+     * @param board game board
+     * @param nLine number of lines in the board
+     * @param nCol  number of columns in the board
+     * @param view  games view
+     */
     public void moveEntity(AbstractPosition[][] board, int nLine, int nCol, View view) {
         int randomPosition;
         boolean moved = false;
@@ -36,6 +48,15 @@ public class Enemy extends AbstractEntity {
         }
     }
 
+    /**
+     * @param board        game board
+     * @param nLine        number of lines in the board
+     * @param nCol         number of columns in the board
+     * @param view         games view
+     * @param lineMovement Destination line (left or right).
+     * @param colMovement  Destination Column (up or down).
+     * @return returns true if the movement was successful.
+     */
     public boolean enemyMove(AbstractPosition[][] board, int nLine, int nCol, View view, int lineMovement, int colMovement) {
         int destLine = this.getLine() + lineMovement;
         int destCol = this.getCol() + colMovement;
@@ -55,21 +76,41 @@ public class Enemy extends AbstractEntity {
         return false;
     }
 
+    /**
+     * Checks if rockford can move into it.
+     *
+     * @return
+     */
     @Override
     public boolean possibleMoveTo() {
         return true;
     }
 
+    /**
+     * Checks if enemies can move into it.
+     *
+     * @return
+     */
     @Override
     public boolean possibleEnemyMoveTo() {
         return false;
     }
 
+    /**
+     * Checks for triggers.
+     *
+     * @return
+     */
     @Override
     public AbstractPosition moveTrigger() {
         return null;
     }
 
+    /**
+     * Checks if falling objects can move into it.
+     *
+     * @return
+     */
     @Override
     public boolean canReceiveFallingObject() {
         return false;
@@ -80,6 +121,11 @@ public class Enemy extends AbstractEntity {
         System.out.print("!");
     }
 
+    /**
+     * Changes button image.
+     *
+     * @param button
+     */
     @Override
     public void setImage(GameButton button) {
         button.setEnemy();

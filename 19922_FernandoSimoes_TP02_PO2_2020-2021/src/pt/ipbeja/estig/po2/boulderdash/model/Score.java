@@ -23,6 +23,13 @@ public class Score implements Comparable<Score> {
         return this.name + ", " + this.level + ", " + this.score;
     }
 
+    /**
+     * Compares two objects of the same class.
+     *
+     * @param o object to compare.
+     * @return a negative integer, zero, or a positive integer as this object
+     * is less than, equal to, or greater than the specified object.
+     */
     @Override
     public int compareTo(Score o) {
         int scoreComparison = this.score.compareTo(o.score);

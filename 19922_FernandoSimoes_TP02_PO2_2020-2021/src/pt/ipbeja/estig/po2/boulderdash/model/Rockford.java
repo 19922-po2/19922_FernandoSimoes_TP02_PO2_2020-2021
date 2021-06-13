@@ -24,25 +24,37 @@ public class Rockford extends AbstractEntity {
         return instance;
     }
 
+    /**
+     * Gets rockford lives.
+     *
+     * @return rockford lives.
+     */
     public int getRockfordLives() {
         return this.rockfordLives;
     }
 
+    /**
+     * Sets rockford lives.
+     *
+     * @param rockfordLives number of rockford lives.
+     */
     public void setRockfordLives(int rockfordLives) {
         this.rockfordLives = rockfordLives;
     }
 
     /**
      * Checks if rockford can move into it.
+     *
      * @return
      */
     @Override
     public boolean possibleMoveTo() {
-        return true;
+        return false;
     }
 
     /**
      * Checks if enemies can move into it.
+     *
      * @return
      */
     @Override
@@ -52,6 +64,7 @@ public class Rockford extends AbstractEntity {
 
     /**
      * Checks for special triggers.
+     *
      * @return
      */
     @Override
@@ -61,6 +74,7 @@ public class Rockford extends AbstractEntity {
 
     /**
      * Checks if falling objects can move into it.
+     *
      * @return
      */
     @Override
@@ -70,12 +84,13 @@ public class Rockford extends AbstractEntity {
 
     /**
      * Moves Rockford according to user input.
-     * @param board Game board.
-     * @param nLine Number of lines in the board.
-     * @param nCol Number of columns in the board.
-     * @param view Game view.
+     *
+     * @param board        Game board.
+     * @param nLine        Number of lines in the board.
+     * @param nCol         Number of columns in the board.
+     * @param view         Game view.
      * @param lineMovement Destination line (left or right).
-     * @param colMovement Destination Column (up or down).
+     * @param colMovement  Destination Column (up or down).
      */
     public void moveEntity(Board board, int nLine, int nCol, View view, int lineMovement, int colMovement) {
         int destLine = this.getLine() + lineMovement;
@@ -91,12 +106,18 @@ public class Rockford extends AbstractEntity {
             board.getBoard()[destLine][destCol] = this;
             this.setLine(destLine);
             this.setCol(destCol);
+            board.checkEnemyCollision();
             //refresh view
             view.rockfordMoved(this, board.getBoard()[destLine - lineMovement][destCol - colMovement]);
             board.checkWin();
         }
     }
 
+    /**
+     * Changes button image.
+     *
+     * @param button
+     */
     @Override
     public void setImage(GameButton button) {
         button.setRockford();
@@ -109,6 +130,6 @@ public class Rockford extends AbstractEntity {
 
     @Override
     public void moveEntity(AbstractPosition[][] board, int nLine, int nCol, View view) {
-
+        //unused
     }
 }

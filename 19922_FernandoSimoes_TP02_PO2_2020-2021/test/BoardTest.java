@@ -158,8 +158,7 @@ class BoardTest {
     @Test
     void testF() {
         //starting rockford position
-        int previousLine = this.board.getRockford().getLine();
-        int previousCol = this.board.getRockford().getCol();
+        int prevLevel = this.board.getCurrentLvl();
         int previousScore = this.board.getScore();
         //movement to diamond to trigger the gate
         this.board.getRockford().moveEntity(this.board, this.board.getnLine(), this.board.getnCol(), this.view, 0, +3); // line, col+3
@@ -170,12 +169,10 @@ class BoardTest {
         int nextCol = this.board.getRockford().getCol();
         int nextScore = this.board.getScore();
         //verifies position after movement
-        assertEquals(previousLine, nextLine);
-        //assertEquals(previousCol, nextCol);
         //verifies score (diamond = 100 points, movement = -5 points)
         assertEquals(previousScore + 100 - 5 - 5, nextScore);
-        //verifies end game
-        assertEquals(2, this.board.getCurrentLvl());
+        //verifies the lvl ended
+        assertEquals(prevLevel + 1, this.board.getCurrentLvl());
         this.board.printBoard();
     }
 }

@@ -82,4 +82,9 @@ public class DummyView implements View {
     public void showScores(List<Score> highScores) {
 
     }
+
+    @Override
+    public void rockfordDied() {
+
+    }
 }

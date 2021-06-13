@@ -32,6 +32,7 @@ public class BoulderdashBoard extends HBox implements View {
     private Label playerNameLabel;
     private Label timerLabel;
     private TextArea highScores;
+    private TextArea gameLog;
 
     public BoulderdashBoard(Board board, Stage myStage) {
         this.gameBoard = new GridPane();
@@ -41,29 +42,12 @@ public class BoulderdashBoard extends HBox implements View {
         gameStart(); //ask player name and show movement keys before game starts
         createButtonGrid();
         this.myStage = myStage;
-
-        //game info (side VBox)
-        this.gameInfoVBOX = new VBox();
-        //this.timerLabel = new Label(String.valueOf(this.board.getTimerValue()));
-        this.rockfordLivesLabel = new Label("Rockford Lives: " + this.board.getRockford().getRockfordLives());
-        this.gameScoreLabel = new Label("Score: " + this.board.getScore());
-        this.currentDiamondCountLabel = new Label("Diamonds: " + this.board.getnDiamonds());
-        this.playerNameLabel = new Label("Current Player:\n" + this.board.getPlayerName());
-        this.giveUpLevelButton = new Button("Give Up\n(Restart Game)");
-        this.highScores = new TextArea("HIGH SCORES:\nName Level Score\n");
-        this.highScores.setEditable(false);
-        this.highScores.setPrefSize(120, 150);
-        this.giveUpLevelButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                board.resetGame("src/resources/map_1.txt");
-            }
-        });
+        initializeVBOX(board);//game info (side VBox)
         this.gameInfoVBOX.getChildren().addAll(timerLabel, playerNameLabel, rockfordLivesLabel, gameScoreLabel,
                 currentDiamondCountLabel, giveUpLevelButton, highScores);
-        this.getChildren().addAll(gameInfoVBOX, gameBoard);
+        this.getChildren().addAll(gameInfoVBOX, gameLog, gameBoard);
 
-        this.setOnKeyPressed(
+        this.setOnKeyPressed( //https://docs.oracle.com/javase/8/javafx/api/javafx/scene/input/KeyEvent.html
                 event -> {
                     switch (event.getCode()) {
                         case W:
@@ -81,6 +65,32 @@ public class BoulderdashBoard extends HBox implements View {
                     }
                 }
         );
+    }
+
+    /**
+     * Initializes a VBox containing game info.
+     *
+     * @param board game board
+     */
+    private void initializeVBOX(Board board) {
+        this.gameInfoVBOX = new VBox();
+        this.rockfordLivesLabel = new Label("Rockford Lives: " + this.board.getRockford().getRockfordLives());
+        this.gameScoreLabel = new Label("Score: " + this.board.getScore());
+        this.currentDiamondCountLabel = new Label("Diamonds: " + this.board.getnDiamonds());
+        this.playerNameLabel = new Label("Current Player:\n" + this.board.getPlayerName());
+        this.giveUpLevelButton = new Button("Give Up\n(Restart Game)");
+        this.highScores = new TextArea("HIGH SCORES:\nName Level Score\n");
+        this.highScores.setEditable(false);
+        this.highScores.setPrefSize(120, 150);
+        this.gameLog = new TextArea("MOVEMENT LOG:\n");
+        this.gameLog.setEditable(false);
+        this.gameLog.setPrefSize(120, 150);
+        this.giveUpLevelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                board.resetGame("src/resources/map_1.txt");
+            }
+        });
     }
 
     /**
@@ -140,6 +150,9 @@ public class BoulderdashBoard extends HBox implements View {
     public void rockfordMoved(AbstractPosition rockford, AbstractPosition entity) {
         this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
         this.buttons[rockford.getCol()][rockford.getLine()].setButtonImage(rockford);
+        // updates log, converting lines into characters (ASCII table)
+        this.gameLog.appendText("rockford " + ((char) (entity.getLine() + 'A' - 1)) + entity.getCol() + "->" +
+                ((char) (rockford.getLine() + 'A' - 1)) + rockford.getCol() + "\n");
     }
 
     /**
@@ -165,7 +178,6 @@ public class BoulderdashBoard extends HBox implements View {
         this.buttons[entity.getCol()][entity.getLine()].setButtonImage(entity);
         this.buttons[diamond.getCol()][diamond.getLine()].setButtonImage(diamond);
     }
-
 
     /**
      * Updates the GUI whenever a rock moves.
@@ -219,9 +231,20 @@ public class BoulderdashBoard extends HBox implements View {
      */
     @Override
     public void showScores(List<Score> highScores) {
-        for(Score score : highScores) {
+        for (Score score : highScores) {
             this.highScores.appendText(score + "\n");
         }
+    }
+
+    /**
+     * Shows the user that rockford, and an enemy are in the same position and rockford died.
+     */
+    @Override
+    public void rockfordDied() {
+        Alert gameWonAlert = new Alert(Alert.AlertType.INFORMATION);
+        gameWonAlert.setTitle("ROCKFORD DIED!");
+        gameWonAlert.setHeaderText("Respawn...");
+        gameWonAlert.showAndWait();
     }
 
     /**
