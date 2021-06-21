@@ -35,7 +35,7 @@ public class Diamond extends AbstractEntity {
     }
 
     /**
-     * Moves the diamond.
+     * Moves the diamond. (can only mode down if possible)
      *
      * @param board game board
      * @param nLine number of lines in the board

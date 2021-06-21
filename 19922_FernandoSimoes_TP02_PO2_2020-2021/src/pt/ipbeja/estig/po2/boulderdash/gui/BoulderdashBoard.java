@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * @author Fernando Simões nº 19922
+ * Class containing all the UI elements.
  */
 
 public class BoulderdashBoard extends HBox implements View {
@@ -223,7 +224,15 @@ public class BoulderdashBoard extends HBox implements View {
         Alert gameWonAlert = new Alert(Alert.AlertType.INFORMATION);
         gameWonAlert.setTitle("GAME WON!");
         gameWonAlert.setHeaderText("Final Score: " + score);
-        gameWonAlert.showAndWait();
+        //gameWonAlert.showAndWait();
+
+        if (gameWonAlert.showAndWait().get() == ButtonType.OK) { //checks if OK button was pressed
+            System.out.println("OK");
+            board.resetGame("src/resources/map_1.txt"); //restart game if ok pressed
+            this.highScores.setText(""); //clears high scores
+        } else {
+            System.out.println("Cancel");
+        }
     }
 
     /**
@@ -279,7 +288,7 @@ public class BoulderdashBoard extends HBox implements View {
     }
 
     /**
-     * shows user an error message if there is a IO exception.
+     * shows user an error message if there is an IO exception.
      *
      * @param message name of the file that caused the error.
      */

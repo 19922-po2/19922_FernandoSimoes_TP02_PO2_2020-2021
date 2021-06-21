@@ -4,6 +4,7 @@ import java.util.Objects;
 
 /**
  * @author Fernando Simões nº 19922
+ * Class that represents a score object
  */
 
 public class Score implements Comparable<Score> {

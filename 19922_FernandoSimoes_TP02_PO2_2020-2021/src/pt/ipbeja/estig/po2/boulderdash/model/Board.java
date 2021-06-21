@@ -82,7 +82,9 @@ public class Board {
     }
 
     /**
-     * Checks in rockford and enemy are in the same spot
+     * Checks if rockford and enemy are in the same spot
+     * If they are in the same position rockford dies and loses a life.
+     * If number of lives equals 0, the game ends and the high scores are shown.
      */
     public void checkEnemyCollision() {
         for (Enemy enemy : enemyList) {
@@ -103,7 +105,7 @@ public class Board {
     }
 
     /**
-     * Decreased the player score by 5 points each time it moves.
+     * Decreased the player score by 5 points each time rockford moves.
      */
     private void movementScorePenalty() {
         this.score -= 5;
@@ -197,9 +199,12 @@ public class Board {
         } catch (IOException e) {
             String errorMessage = "Error reading file " + date;
             view.showError(errorMessage);
-            System.out.println(errorMessage + " - Exception " + e.toString());
+            //System.out.println(errorMessage + " - Exception " + e.toString());
         }
-        highScores.subList(5, highScores.size()).clear(); // removes all except the first top 5
+        //verifies list size
+        if (highScores.size() > 5) {
+            highScores.subList(5, highScores.size()).clear(); // removes all except the first top 5
+        }
         System.out.println(highScores);
         return highScores;
     }
@@ -218,7 +223,7 @@ public class Board {
         } catch (IOException e) { //sends IO exception to the view
             String errorMessage = "Error creating file " + date;
             view.showError(errorMessage);
-            System.out.println(errorMessage + " - Exception " + e.toString());
+            //System.out.println(errorMessage + " - Exception " + e.toString());
         }
     }
 
@@ -428,7 +433,8 @@ public class Board {
     }
 
     /**
-     * Read a file line by line and saves it, into a 2D array, where each word is saved into a position.
+     * Reads a file line by line and saves it, into a 2D array, where each word is saved into a position.
+     * source: https://cms.ipbeja.pt/mod/page/view.php?id=129484
      *
      * @param filename  name of the file to be read.
      * @param separator character to separate the lines.
@@ -445,7 +451,7 @@ public class Board {
         } catch (IOException e) { //sends IO exception to the view
             String errorMessage = "Error reading file " + filename;
             view.showError(errorMessage);
-            System.out.println(errorMessage + " - Exception " + e.toString());
+            //System.out.println(errorMessage + " - Exception " + e.toString());
             return new String[0][];
         }
     }

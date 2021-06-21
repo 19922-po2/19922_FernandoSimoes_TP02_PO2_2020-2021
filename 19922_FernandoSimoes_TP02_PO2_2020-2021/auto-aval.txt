@@ -16,11 +16,10 @@ Req. NE3- Completo (1.0)
 Req. NE4- Completo (1.0)
 Req. NE5- Completo (0.5)
 Req. NE6- Completo (0.5)
-Req. NE7-
 Req. NE8- Completo (1.0)
 valores: 6.5
 
 Classificação final: 16.5
 
 Tempo gasto para o trabalho:
-Cerca de 20 horas no total.
+Cerca de 40 horas no total.

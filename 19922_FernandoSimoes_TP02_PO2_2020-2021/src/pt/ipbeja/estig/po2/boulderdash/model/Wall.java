@@ -1,6 +1,5 @@
 package pt.ipbeja.estig.po2.boulderdash.model;
 
-import javafx.scene.control.Button;
 import pt.ipbeja.estig.po2.boulderdash.gui.GameButton;
 
 /**
