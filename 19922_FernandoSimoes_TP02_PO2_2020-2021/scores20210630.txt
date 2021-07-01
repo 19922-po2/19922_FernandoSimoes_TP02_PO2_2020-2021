@@ -1,0 +1,7 @@
+fernando 3 515
+simoes 3 350
+pinto 2 365
+daniel 4 220
+blue 3 505
+test 3 485
+testepo2 3 415
